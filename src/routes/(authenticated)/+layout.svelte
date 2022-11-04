@@ -1,5 +1,5 @@
 <script lang="ts">
-	import '../../app.css';
+	
 	import Emoji from './components/emoji.svelte';
 	import { goto } from '$app/navigation';
 
