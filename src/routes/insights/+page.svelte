@@ -20,7 +20,11 @@
 		<div class="bg-slate-800/50 rounded-lg p-4 grow">
 			<span class="material-symbols-outlined text-slate-300"> sentiment_satisfied </span>
 			<h1 class="text-lg text-slate-300">Sleep welthness</h1>
-			<p>98%</p>
+
+			<div class="flex items-center justify-center mt-4">
+				<div class="pie animate" style="--p:60;--c:#22C55E;"> 98%</div>
+			</div>
+			
 		</div>
 
 		<div class="flex flex-col grow gap-2">
@@ -75,7 +79,7 @@
 				</div>
 				<p class="font-semibold text-xl">9 h. 36 min.</p>
 
-				<div class="w-full h-2 bg-slate-800 rounded-lg"></div>
+				<div class="w-full h-2 bg-slate-800 rounded-lg" />
 			</div>
 		</div>
 	</div>
@@ -162,3 +166,64 @@
 		</div>
 	</div>
 </div>
+
+<style>
+	@property --p {
+		syntax: '<number>';
+		inherits: true;
+		initial-value: 0;
+	}
+
+	.pie {
+		--p: 20;
+		--b: 22px;
+		--c: darkred;
+		--w: 150px;
+
+		width: var(--w);
+		aspect-ratio: 1;
+		position: relative;
+		display: inline-grid;
+		margin: 5px;
+		place-content: center;
+		font-size: 25px;
+		font-weight: bold;
+		font-family: sans-serif;
+	}
+	.pie:before,
+	.pie:after {
+		content: '';
+		position: absolute;
+		border-radius: 50%;
+	}
+	.pie:before {
+		inset: 0;
+		background: radial-gradient(farthest-side, var(--c) 98%, #0000) top/var(--b) var(--b) no-repeat,
+			conic-gradient(var(--c) calc(var(--p) * 1%), #0000 0);
+		-webkit-mask: radial-gradient(
+			farthest-side,
+			#0000 calc(99% - var(--b)),
+			#000 calc(100% - var(--b))
+		);
+		mask: radial-gradient(farthest-side, #0000 calc(99% - var(--b)), #000 calc(100% - var(--b)));
+	}
+	.pie:after {
+		inset: calc(50% - var(--b) / 2);
+		background: var(--c);
+		transform: rotate(calc(var(--p) * 3.6deg)) translateY(calc(50% - var(--w) / 2));
+	}
+	.animate {
+		animation: p 1s 0.5s both;
+	}
+	.no-round:before {
+		background-size: 0 0, auto;
+	}
+	.no-round:after {
+		content: none;
+	}
+	@keyframes p {
+		from {
+			--p: 0;
+		}
+	}
+</style>
