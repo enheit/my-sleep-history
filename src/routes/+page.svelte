@@ -1,5 +1,6 @@
 <script lang="ts">
 	import PulsingCircle from './(authenticated)/history/components/pulsing-circle.svelte';
+	import { goto } from '$app/navigation';
 
 	import ArrowOne from '../assets/arrows/ArrowOne.svg';
 	import ArrowTwo from '../assets/arrows/ArrowTwo.svg';
@@ -19,17 +20,26 @@
 	<script src="https://apis.google.com/js/platform.js" async defer></script>
 </svelte:head>
 
-<ArrowThree />
-<ArrowFour />
+<div class="flex gap-4 flex-col items-center mt-24">
+	<h1 class="text-6xl font-bold">My Sleep History</h1>
+	<h2 class="text-2xl text-slate-300">Track and analyze your 🛏️ activity!</h2>
 
-<div class="flex flex-col items-center">
-	<h1 class="text-5xl font-extrabold">My Sleep History</h1>
-	<h6 class="text-2xl font-bold">My Sleep History</h6>
+	<div class="flex items-center text-slate-500">
+		<span class="material-symbols-outlined"> attach_money </span>
+		<p class="">Free to use</p>
+	</div>
 
-	<div class="g-signin2" data-longtitle="true" data-onsuccess="onSignIn" />
+	<button
+		class="z-10 px-8 py-4 text-xl font-semibold mt-10 border-2 border-sky-500 rounded-full"
+		on:click={() => goto('/history')}
+	>
+		Sign in with Google
+	</button>
+
+
 </div>
 
-<div class="flex justify-center items-end gap-8">
+<div class="flex relative justify-center items-end gap-14" style="margin-top: -100px;">
 	<div class="flex flex-col gap-4">
 		<div class="flex flex-col">
 			<h1 class="text-slate-300">Step 1</h1>
@@ -48,32 +58,47 @@
 		Start sleeping
 	</button>
 
-    <div class="flex flex-col gap-4 relative top-24">
-		<div class="flex flex-col relative left-20 top-4">
-			<h1 class="text-slate-300">Step 2</h1>
-			<p class="font-semibold text-xl">Stop sleeping</p>
+	<div class="flex flex-col gap-8 relative top-52">
+		<div class="flex flex-col relative left-20 top-4" style="max-width: 150px;">
+			<h1 class="text-slate-300 inline-block">Step 2</h1>
+			<p class="font-semibold text-xl inline-block">Stop sleeping</p>
 		</div>
 
-        <ArrowTwo />
+		<ArrowTwo />
 
-        <button
-            class="flex gap-4 bg-gradient-to-r w-48 from-slate-800 to-red-800/30 items-center gap-2 text-slate-100 bg-slate-800 px-4 py-2 rounded-full"
-        >
-            <div class="flex items-center gap-2">
-                <PulsingCircle />
-                00:12:34
-            </div>
-    
-            <div class="flex items-center gap-1 text-red-400">
-                <span class="material-symbols-outlined"> stop </span>
-                Stop
-            </div>
-        </button>
-    </div>
-	
+		<div class="flex flex-col gap-8">
+			<button
+				class="flex gap-4 bg-gradient-to-r w-48 from-slate-800 to-red-800/30 items-center gap-2 text-slate-100 bg-slate-800 px-4 py-2 rounded-full"
+			>
+				<div class="flex items-center gap-2">
+					<PulsingCircle />
+					00:12:34
+				</div>
+
+				<div class="flex items-center gap-1 text-red-400">
+					<span class="material-symbols-outlined"> stop </span>
+					Stop
+				</div>
+			</button>
+
+			<div class="flex gap-8 relative" style="left: -310px;">
+				<div class="flex flex-col items-end">
+					<h1 class="text-slate-300">Then</h1>
+					<p class="font-semibold text-xl">Record added to your history</p>
+				</div>
+
+				<ArrowThree />
+			</div>
+		</div>
+	</div>
 </div>
 
-<div class="mt-40">
+<div class="mt-64">
+	<!-- <div class="flex flex-col">
+        <h1 class="text-2xl font-bold">Sleep History</h1>
+        <h2 class="text-xl text-slate-500">Your sleep history</h2>
+    </div> -->
+
 	<table class="table-auto w-full m-2">
 		<thead class="text-left">
 			<tr>
@@ -108,70 +133,88 @@
 	</table>
 </div>
 
-<div class="bg-slate-800/50 rounded-lg p-4 m-2" style="max-width: 200px;">
-	<span class="material-symbols-outlined text-slate-300"> sentiment_satisfied </span>
-	<h1 class="text-lg text-slate-300">Sleep welthness</h1>
+<div class="flex justify-center my-10 gap-8 relative">
+	<ArrowFour />
 
-	<div class="flex items-center justify-center mt-4">
-		<div class="pie animate" style="--p:60;--c:#22C55E;">98%</div>
+	<div class="flex flex-col absolute left-1/2 ml-16">
+		<h1 class="text-slate-300">At the end</h1>
+		<p class="font-semibold text-xl">Investigate your sleeping</p>
 	</div>
 </div>
 
-<div class="bg-slate-800/50 rounded-lg p-4 m-2" style="max-width: 400px;">
-	<div class="flex items-center gap-1">
-		<h1 class="text-lg text-slate-300">Longests sleep duration</h1>
-	</div>
-
-	<div class="flex flex-col items-center mt-4">
-		<div class="flex gap-1 items-center">
-			<div class="h-2 w-8 bg-green-500 rounded-lg" />
-			<div class="h-2 w-8 bg-green-500 rounded-lg" />
-			<div class="h-2 w-8 bg-green-500 rounded-lg" />
-			<div class="h-2 w-8 bg-green-500 rounded-lg" />
-			<div class="h-2 w-8 bg-green-500 rounded-lg" />
-			<div class="h-2 w-8 bg-gray-500 rounded-lg" />
-			<div class="h-2 w-8 bg-gray-500 rounded-lg" />
-			<p>7+</p>
+<div class="flex justify-center relative mt-14 mb-20">
+	<div class="bg-slate-800/50 rounded-lg p-4" style="width: 350px;">
+		<span class="material-symbols-outlined text-slate-300"> bed </span>
+		<div class="flex items-center gap-1">
+			<h1 class="text-lg text-slate-300">Target bed time</h1>
 		</div>
 
-		<p>9 h. 36 min.</p>
+		<div class="flex flex-col gap-2 mt-4">
+			<div class="flex flex-col">
+				<p>At time</p>
+
+				<div class="flex items-center gap-2">
+					<div class="h-2 w-full bg-green-500 rounded-lg" />
+					<p>28</p>
+				</div>
+			</div>
+
+			<div class="flex flex-col">
+				<p>Almost at time</p>
+				<div class="flex items-center gap-2">
+					<div class="h-2 w-3/6 bg-orange-500 rounded-lg" />
+					<p>12</p>
+				</div>
+			</div>
+
+			<div class="flex flex-col">
+				<p>Out of time</p>
+				<div class="flex items-center gap-2">
+					<div class="h-2 w-1/4 bg-red-500 rounded-lg" />
+					<p>12</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div
+		class="bg-slate-800 relative rounded-lg p-4 drop-shadow-lg"
+		style="width: 200px; left: -50px; top: -50px;"
+	>
+		<span class="material-symbols-outlined text-slate-300"> sentiment_satisfied </span>
+		<h1 class="text-lg text-slate-300">Sleep welthness</h1>
+
+		<div class="flex items-center justify-center mt-4">
+			<div class="pie animate" style="--p:88;--c:#22C55E;">88%</div>
+		</div>
+	</div>
+
+	<div
+		class="bg-slate-700 absolute self-start rounded-lg p-4 drop-shadow-lg"
+		style="width: 300px; bottom: -50px;"
+	>
+		<div class="flex items-center gap-1">
+			<h1 class="text-lg text-slate-300">Longests sleep duration</h1>
+		</div>
+
+		<div class="flex flex-col items-center mt-4">
+			<div class="flex gap-1 items-center">
+				<div class="h-2 w-8 bg-green-500 rounded-lg" />
+				<div class="h-2 w-8 bg-green-500 rounded-lg" />
+				<div class="h-2 w-8 bg-green-500 rounded-lg" />
+				<div class="h-2 w-8 bg-green-500 rounded-lg" />
+				<div class="h-2 w-8 bg-green-500 rounded-lg" />
+				<div class="h-2 w-8 bg-green-500 rounded-lg" />
+				<div class="h-2 w-8 bg-green-500 rounded-lg" />
+				<p>7+</p>
+			</div>
+
+			<p>8 h. 36 min.</p>
+		</div>
 	</div>
 </div>
 
-<div class="bg-slate-800/50 rounded-lg p-4" style="max-width: 300px;">
-	<span class="material-symbols-outlined text-slate-300"> bed </span>
-	<div class="flex items-center gap-1">
-		<h1 class="text-lg text-slate-300">Target bed time</h1>
-		<span class="material-symbols-outlined"> info </span>
-	</div>
-
-	<div class="flex flex-col gap-2 mt-4">
-		<div class="flex flex-col">
-			<p>At time</p>
-
-			<div class="flex items-center gap-2">
-				<div class="h-2 w-full bg-green-500 rounded-lg" />
-				<p>28</p>
-			</div>
-		</div>
-
-		<div class="flex flex-col">
-			<p>Almost at time</p>
-			<div class="flex items-center gap-2">
-				<div class="h-2 w-3/6 bg-orange-500 rounded-lg" />
-				<p>12</p>
-			</div>
-		</div>
-
-		<div class="flex flex-col">
-			<p>Out of time</p>
-			<div class="flex items-center gap-2">
-				<div class="h-2 w-1/4 bg-red-500 rounded-lg" />
-				<p>12</p>
-			</div>
-		</div>
-	</div>
-</div>
+<h1 class="text-center my-4 text-slate-300">Stay healthy!</h1>
 
 <style>
 	@property --p {
