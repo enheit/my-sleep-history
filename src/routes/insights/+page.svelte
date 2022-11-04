@@ -28,7 +28,9 @@
 		</div>
 
 		<div class="flex flex-col grow gap-2">
-			<div class="bg-slate-800/50 rounded-lg p-4">
+			<div class="flex gap-2">
+
+			<div class="bg-slate-800/50 rounded-lg p-4 grow">
 				<!-- <span class="material-symbols-outlined text-slate-300"> hourglass_top </span> -->
 				<div class="flex items-center gap-1">
 					<h1 class="text-lg text-slate-300">Shortest sleep duration</h1>
@@ -50,36 +52,50 @@
 				</div>
 			</div>
 
-			<div class="bg-slate-800/50 rounded-lg p-4">
-				<span class="material-symbols-outlined text-slate-300"> hourglass_bottom </span>
+			<div class="bg-slate-800/50 rounded-lg p-4 grow">
 				<div class="flex items-center gap-1">
 					<h1 class="text-lg text-slate-300">Longests sleep duration</h1>
 				</div>
 
 				<div class="flex flex-col items-center mt-4">
 					<div class="flex gap-1 items-center">
-						<div class="h-2 w-12 bg-green-500 rounded-lg" />
-						<div class="h-2 w-12 bg-green-500 rounded-lg" />
-						<div class="h-2 w-12 bg-green-500 rounded-lg" />
-						<div class="h-2 w-12 bg-green-500 rounded-lg" />
-						<div class="h-2 w-12 bg-green-500 rounded-lg" />
-						<div class="h-2 w-12 bg-gray-500 rounded-lg" />
-						<div class="h-2 w-12 bg-gray-500 rounded-lg" />
+						<div class="h-2 w-8 bg-green-500 rounded-lg" />
+						<div class="h-2 w-8 bg-green-500 rounded-lg" />
+						<div class="h-2 w-8 bg-green-500 rounded-lg" />
+						<div class="h-2 w-8 bg-green-500 rounded-lg" />
+						<div class="h-2 w-8 bg-green-500 rounded-lg" />
+						<div class="h-2 w-8 bg-gray-500 rounded-lg" />
+						<div class="h-2 w-8 bg-gray-500 rounded-lg" />
 						<p>7+</p>
 					</div>
 
 					<p>9 h. 36 min.</p>
 				</div>
 			</div>
+		</div>
+
 
 			<div class="bg-slate-800/50 rounded-lg p-4">
-				<span class="material-symbols-outlined text-slate-300"> hourglass_full </span>
 				<div class="flex items-center gap-1">
 					<h1 class="text-lg text-slate-300">Average sleep duration</h1>
 				</div>
-				<p class="font-semibold text-xl">9 h. 36 min.</p>
 
-				<div class="w-full h-2 bg-slate-800 rounded-lg" />
+				<div class="flex flex-col items-center gap-2 mt-4">
+					<div class="flex gap-1 items-end">
+						<div class="h-2 w-12 bg-green-500/5 rounded-full" />
+						<div class="h-4 w-12 bg-green-500/20 rounded-full" />
+						<div class="h-6 w-12 bg-green-500/50 rounded-full" />
+						<div class="h-8 w-12  border-2 border-green-500 rounded-full flex items-center justify-center">
+							<p class="font-bold">7+</p>
+						</div>
+						<div class="h-6 w-12  bg-green-500/50 rounded-full" />
+						<div class="h-4 w-12  bg-green-500/20 rounded-full" />
+						<div class="h-2 w-12  bg-green-500/5 rounded-full" />
+					</div>
+	
+					<p>7 h. 38 min.</p>
+				</div>
+
 			</div>
 		</div>
 	</div>
@@ -121,6 +137,41 @@
 		</div>
 
 		<div class="bg-slate-800/50 rounded-lg p-4 grow">
+			<span class="material-symbols-outlined text-slate-300"> bed </span>
+			<div class="flex items-center gap-1">
+				<h1 class="text-lg text-slate-300">Target wake up time</h1>
+				<span class="material-symbols-outlined"> info </span>
+			</div>
+
+			<div class="flex flex-col gap-2 mt-4">
+				<div class="flex flex-col">
+					<p>At time</p>
+
+					<div class="flex items-center gap-2">
+						<div class="h-2 w-48 bg-green-500 rounded-lg" />
+						<p>28</p>
+					</div>
+				</div>
+
+				<div class="flex flex-col">
+					<p>Almost at time</p>
+					<div class="flex items-center gap-2">
+						<div class="h-2 w-24 bg-orange-500 rounded-lg" />
+						<p>12</p>
+					</div>
+				</div>
+
+				<div class="flex flex-col">
+					<p>Out of time</p>
+					<div class="flex items-center gap-2">
+						<div class="h-2 w-12 bg-red-500 rounded-lg" />
+						<p>12</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- <div class="bg-slate-800/50 rounded-lg p-4 grow">
 			<span class="material-symbols-outlined text-slate-300"> alarm </span>
 			<div class="flex items-center gap-1">
 				<h1 class="text-lg text-slate-300">Target wake up time</h1>
@@ -163,7 +214,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 	</div>
 </div>
 
