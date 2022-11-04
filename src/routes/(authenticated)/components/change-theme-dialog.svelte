@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Dialog from '../../components/dialog.svelte';
+	import Dialog from '../../../components/dialog.svelte';
 	import { createEventDispatcher } from 'svelte';
 	export let isOpen = false;
 
