@@ -12,9 +12,10 @@
 
 <Dialog title="Select language" {isOpen} on:close={handleClose}>
 	<div class="my-4" slot="body">
-		<select class="w-full p-4 bg-slate-700 rounded-lg" name="" id="" placeholder="Language">
-			<option value="">English</option>
-			<option value="">Українська</option>
+		<label for="language">Current language</label>
+		<select id="language" class="w-full px-4 py-2 bg-slate-700 rounded-lg" name="" placeholder="Language">
+			<option value="eng">English</option>
+			<option value="uk">Українська</option>
 		</select>
 	</div>
 	<div slot="footer">

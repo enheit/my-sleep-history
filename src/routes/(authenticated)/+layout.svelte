@@ -13,7 +13,7 @@
 
 	let isChangeLanguageDialogOpen = false;
 	let isChangeThemeDialogOpen = false;
-	let isChangeSleepConfigDialogOpen = false;
+	let isChangeSleepConfigDialogOpen = true;
 
 	function toggleChangeLanguageDialog() {
 		isChangeLanguageDialogOpen = !isChangeLanguageDialogOpen;

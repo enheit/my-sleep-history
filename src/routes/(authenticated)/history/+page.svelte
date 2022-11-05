@@ -5,6 +5,7 @@
 	import PulsingCircle from './components/pulsing-circle.svelte';
 
 	import MoreVert from './components/more-vert.svelte';
+	import EditSleepSessionDialog from './components/edit-sleep-session-dialog.svelte';
 
 	interface Record {
 		id: String;
@@ -48,6 +49,7 @@
 	}
 
 	let isAddSleepSessionDialogOpen = false;
+	let isEditSleepSessionDialogOpen = false;
 
 	function closeAddSleepSessionDialog() {
 		isAddSleepSessionDialogOpen = false;
@@ -55,6 +57,14 @@
 
 	function opneAddSleepSessionDialog() {
 		isAddSleepSessionDialogOpen = true;
+	}
+
+	function closeEditSleepSessionDialog() {
+		isEditSleepSessionDialogOpen = false;
+	}
+
+	function opneEditSleepSessionDialog() {
+		isEditSleepSessionDialogOpen = true;
 	}
 
 	let isSleepSessionActive = false;
@@ -139,7 +149,10 @@
 					</td>
 					<td>
 						<div class="flex justify-end gap-1">
-							<MoreVert on:edit={() => alert('Edit')} on:delete={() => alert('Delete')} />
+							<MoreVert
+								on:edit={opneEditSleepSessionDialog}
+								on:delete={() => confirm('Are you sure you want to delete the record?')}
+							/>
 						</div>
 					</td>
 				</tr>
@@ -154,6 +167,7 @@
 </div>
 
 <AddSleepSessionDialog isOpen={isAddSleepSessionDialogOpen} on:close={closeAddSleepSessionDialog} />
+<EditSleepSessionDialog isOpen={isEditSleepSessionDialogOpen} on:close={closeEditSleepSessionDialog} />
 
 <style>
 </style>

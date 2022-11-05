@@ -5,6 +5,16 @@
 	let menu: Menu;
 
 	const dispatch = createEventDispatcher();
+
+	function handleEdit() {
+		menu.setOpen(false);
+		dispatch('edit')
+	}
+
+	function handleDelete() {
+		menu.setOpen(false);
+		dispatch('delete')
+	}
 </script>
 
 <div>
@@ -19,14 +29,14 @@
 		<div class="flex flex-col">
 			<button
 				class="flex items-center gap-2 p-2 hover:bg-slate-700"
-				on:click={() => dispatch('edit')}
+				on:click={handleEdit}
 			>
 				<span class="material-symbols-outlined"> edit </span>
 				Edit
 			</button>
 			<button
 				class="flex items-center gap-2 p-2 hover:bg-red-500/70"
-				on:click={() => dispatch('delete')}
+				on:click={handleDelete}
 			>
 				<span class="material-symbols-outlined"> delete </span>
 				Remove

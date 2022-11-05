@@ -10,7 +10,7 @@
 	}
 </script>
 
-<Dialog title="Add sleep session" {isOpen} on:close={handleClose}>
+<Dialog title="Edit sleep session" {isOpen} on:close={handleClose}>
 	<div slot="body" class="flex flex-col gap-4 my-4">
 		<div>
 			<label for="in-bed-at">In bed at</label>
@@ -32,14 +32,14 @@
 
 		<div class="flex gap-2 items-center">
 			<label for="nap">Is it napping?</label>
-			<input id="nap" type="checkbox">
+			<input id="nap" type="checkbox" />
 		</div>
 	</div>
 	<div slot="footer">
 		<button class="px-4 py-2 text-slate-100" on:click={handleClose}> Close </button>
 		<button
 			class="px-4 py-2 bg-sky-500 rounded-full text-slate-100 font-semibold"
-			on:click={handleClose}>Add session</button
+			on:click={handleClose}>Update</button
 		>
 	</div>
 </Dialog>
