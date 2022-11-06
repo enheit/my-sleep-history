@@ -1,11 +1,16 @@
 <script lang="ts">
 	import PulsingCircle from './(authenticated)/history/components/pulsing-circle.svelte';
 	import { goto } from '$app/navigation';
+	import { signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from 'firebase/auth';
+	import { addDoc, doc, setDoc, collection } from 'firebase/firestore/lite';
+
+	import { auth, db, provider } from '../firebase/initialize';
 
 	import ArrowOne from '../assets/arrows/ArrowOne.svg';
 	import ArrowTwo from '../assets/arrows/ArrowTwo.svg';
 	import ArrowThree from '../assets/arrows/ArrowThree.svg';
 	import ArrowFour from '../assets/arrows/ArrowFour.svg';
+	import { onMount } from 'svelte';
 
 	let records = [
 		{ id: '1', date: new Date(), inBedAt: new Date(), wokeUpAt: new Date() },
@@ -14,6 +19,34 @@
 		{ id: '4', date: new Date(), inBedAt: new Date(), wokeUpAt: new Date() },
 		{ id: '5', date: new Date(), inBedAt: new Date(), wokeUpAt: new Date() }
 	];
+
+	async function handleSignInWithGoogle() {
+		try {
+			let result = await signInWithPopup(auth, provider);
+
+			const credential = GoogleAuthProvider.credentialFromResult(result);
+			const token = credential.accessToken;
+			// The signed-in user info.
+			const user = result.user;
+			console.log(result);
+
+			// console.log(result.user.displayName);
+			// console.log(result.user.email);
+
+			// await addDoc(collection(db, 'users'), {
+			// 	name: user.displayName,
+			// 	email: user.email
+			// }).catch(error => {
+			// 	console.log("2");
+			// 	console.log(error);
+			// 	console.log("2");
+			// });
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
+
 </script>
 
 <svelte:head>
@@ -31,12 +64,10 @@
 
 	<button
 		class="z-10 px-8 py-4 text-xl font-semibold mt-10 border-2 border-sky-500 rounded-full"
-		on:click={() => goto('/history')}
+		on:click={handleSignInWithGoogle}
 	>
 		Sign in with Google
 	</button>
-
-
 </div>
 
 <div class="flex relative justify-center items-end gap-14" style="margin-top: -100px;">

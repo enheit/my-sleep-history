@@ -2,18 +2,20 @@
 	
 	import Emoji from './components/emoji.svelte';
 	import { goto } from '$app/navigation';
+	import { signOut } from "firebase/auth";
 
 	import Menu from '@smui/menu';
 	import SleepConfigDialog from './components/sleep-config-dialog.svelte';
 	import ChangeThemeDialog from './components/change-theme-dialog.svelte';
 	import { isLastDayOfMonth } from 'date-fns';
 	import ChangeLanguageDialog from './components/change-language-dialog.svelte';
+	import { auth } from '../../firebase/initialize';
 
 	let menu: Menu;
 
 	let isChangeLanguageDialogOpen = false;
 	let isChangeThemeDialogOpen = false;
-	let isChangeSleepConfigDialogOpen = true;
+	let isChangeSleepConfigDialogOpen = false;
 
 	function toggleChangeLanguageDialog() {
 		isChangeLanguageDialogOpen = !isChangeLanguageDialogOpen;
@@ -48,6 +50,12 @@
 	}
 
 	function handleLogout() {
+		signOut(auth).then(() => {
+			console.log("Signed out");
+		}).catch((error) => {
+			console.log("Failed top sign out");
+		});
+
 		closeMenu();
 	}
 

@@ -4,6 +4,10 @@
 	import AddSleepSessionDialog from './components/add-sleep-session-dialog.svelte';
 	import PulsingCircle from './components/pulsing-circle.svelte';
 
+	export let data: any;
+
+	console.log(data);
+
 	import MoreVert from './components/more-vert.svelte';
 	import EditSleepSessionDialog from './components/edit-sleep-session-dialog.svelte';
 
