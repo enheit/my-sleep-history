@@ -1,0 +1,8 @@
+{
+    "name": "Roman",
+    "theme": {
+        "light": "Light",
+        "dark": "Dark"
+    },
+    "logout": "Logout"
+}
