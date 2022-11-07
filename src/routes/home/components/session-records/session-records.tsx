@@ -1,0 +1,151 @@
+import { useState } from "react";
+
+export interface SleepSessionRecord {
+    date: Date,
+    inBedAt: Date,
+    wokeUpAt: Date,
+}
+
+interface SessionRecordsProps {
+    currentMonth: boolean,
+    records: SleepSessionRecord[]
+}
+
+export function SessionRecords(props: SessionRecordsProps) {
+    let [isExpanded, setIsExpanded] = useState(props.currentMonth);
+    let previewRecords = props.records.slice(0, 3);
+    let records = isExpanded ? props.records : previewRecords
+
+    return (
+        <div className="flex flex-col rounded-lg">
+            <h1 className="leading-none text-2xl text-gray-900 dark:text-gray-100 mb-4">November 2022</h1>
+            
+
+            {props.currentMonth === false && (
+                <div className="flex flex-col gap-4 mt-4 mb-8">
+                    <h1 className="font-bold text-gray-900 dark:text-gray-100">Short summary</h1>
+        
+                    <div className="flex gap-12">
+                        <div className="flex flex-col">
+                            <p className="text-gray-900 dark:text-gray-100">Average awake duration</p>
+                            <p className="text-gray-900 dark:text-gray-100">14 h. 30 min.</p>
+                        </div>
+
+                        <div className="flex flex-col">
+                            <p className="text-gray-900 dark:text-gray-100">In bed</p>
+                            <p className="text-gray-900 dark:text-gray-100">Mostly In Time</p>
+                        </div>
+
+                        <div className="flex flex-col">
+                            <p className="text-gray-900 dark:text-gray-100">Woke up</p>
+                            <p className="text-gray-900 dark:text-gray-100">Mostly Almost In Time</p>
+                        </div>
+
+                        <div className="flex flex-col">
+                            <p className="text-gray-900 dark:text-gray-100">Average sleep duration</p>
+                            <p className="text-gray-900 dark:text-gray-100">6 h. 30 min.</p>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+
+            <table className="w-full table-auto">
+                <thead>
+                    <tr className="text-left">
+                        <th className="py-4 text-gray-900 dark:text-gray-100">Awake duration</th>
+                        <th className="p-4">
+                            <div className="flex items-center gap-2">
+                                <p className="text-gray-900 dark:text-gray-100">In bed at</p>
+                                <span title="Mostly In Time" className="w-2 h-2 bg-green-500 rounded-full"></span>
+                            </div>
+                        </th>
+                        <th className="p-4">
+                            <div className="flex items-center gap-2">
+                                <p className="text-gray-900 dark:text-gray-100">Woke up at</p>
+                                <span title="Mostly Almost In Time" className="w-2 h-2 bg-orange-500 rounded-full"></span>
+                            </div>
+                        </th>
+                        <th className="py-4 text-gray-900 dark:text-gray-100">
+                        <div className="flex items-center gap-2">
+                                <p className="text-gray-900 dark:text-gray-100">Sleep duration</p>
+                                <span title="Mostly Almost In Time" className="w-2 h-2 bg-red-500 rounded-full"></span>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    {records.map((record, index) => {
+                        return (
+                            <tr className="border-b last:border-none border-gray-200 dark:border-zinc-900" key={index}>
+                                <td className="py-4 text-gray-900 dark:text-gray-100">17 h. 30 min.</td>
+                                <td className="p-4">
+                                    <div className="flex flex-col">
+                                        <div className="flex items-center gap-2">
+                                            <p className="text-gray-900 dark:text-gray-100">22:30</p>
+                                            <span className="w-2 h-2 bg-orange-500 rounded-full"></span>
+                                        </div>
+
+                                        <span className="text-sm text-gray-400">Sunday, 14 Nov</span>
+                                    </div>
+                                </td>
+                                <td className="p-4">
+                                    <div className="flex flex-col">
+                                        <div className="flex items-center gap-2">
+                                            <p className="text-gray-900 dark:text-gray-100">08:30</p>
+                                            <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                                        </div>
+                                        
+                                        <span className="text-sm text-gray-400">Monday, 14 Nov</span>
+                                    </div>
+                                </td>
+                                <td className="py-4">
+                                    <div className="flex items-center gap-2">
+                                        <p className="text-gray-900 dark:text-gray-100">6 h. 30 min.</p>
+                                        <span className="w-2 h-2 bg-red-500 rounded-full"></span>
+                                    </div>
+                                </td>
+                                <td style={{ maxWidth: 60 }}>
+                                    <div className="flex items-center justify-end">
+                                        <button className="flex items-center justify-center p-2 dark:text-gray-100 rounded-full">
+                                            <span className="material-symbols-outlined">
+                                                edit
+                                            </span>
+                                        </button>
+
+                                        <button className="flex items-center justify-center p-2 dark:text-red-500 rounded-full">
+                                            <span className="material-symbols-outlined">
+                                                delete
+                                            </span>
+                                        </button>
+                                    </div>
+                                    
+                                </td>
+                            </tr>
+                        )
+                    })}
+
+                    {props.currentMonth === false && isExpanded === false && (
+                        <tr>
+                            <td colSpan={5} className="p-4">
+                                <div className="flex justify-center">
+                                    <button className="flex items-center gap-2 px-4 py-2 text-blue-500 rounded-full" onClick={() => setIsExpanded(true)}>
+                                        {/* Expand all records */}
+                                        <span className="material-symbols-outlined">
+                                            expand_more
+                                        </span>
+
+                                        Expand
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    )}
+
+                    
+                </tbody>
+            </table>
+        </div>
+    )
+}

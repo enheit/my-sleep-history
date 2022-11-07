@@ -1,44 +1,19 @@
-import { signOut } from 'firebase/auth';
+import { useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { useTranslation } from "react-i18next";
-import { auth } from "../../firebase/firebase.config";
-import { SupportedLocale } from "../../i18n/i18n.config";
-import { SupportedTheme, useTheme } from "../../theme/theme";
+import { auth } from '../../firebase/firebase.config';
 import { UserProfile } from './components/user-profile/user-profile';
 import { UserProfileSkeleton } from './components/user-profile/user-profile.skeleton';
 
 export function Header() {
     const [ user, userError ] = useAuthState(auth);
-    const { t, i18n } = useTranslation();
-    let { theme, toggleTheme } = useTheme();
+    let [isSlipping, setIsSleeping] = useState(false);
 
-    function toggleLanguage() {
-        let language = i18n.language === SupportedLocale.English
-            ? SupportedLocale.Ukrainian
-            : SupportedLocale.English;
-
-        i18n.changeLanguage(language);
-        localStorage.setItem("lang", language);
+    function startSleeping() {
+        setIsSleeping(true)
     }
 
-    function logout() {
-        signOut(auth);
-    }
-
-    const language = {
-        [SupportedLocale.English]: "Eng",
-        [SupportedLocale.Ukrainian]: "Укр"
-    }
-
-    const themeBag = {
-        [SupportedTheme.Light]: {
-            title: t("theme.light"),
-            iconName: 'light_mode'
-        },
-        [SupportedTheme.Dark]: {
-            title: t("theme.dark"),
-            iconName: 'dark_mode'
-        },
+    function stopSleeping() {
+        setIsSleeping(false)
     }
 
     return (
@@ -51,31 +26,33 @@ export function Header() {
                 : <UserProfileSkeleton />
             }
 
-            <div className="flex items-center gap-2">
-                <button className="flex items-center gap-2 rounded-full px-4 py-2 hover:bg-yellow-500/10 text-yellow-500" onClick={toggleTheme}>
-                    {themeBag[theme].title}
+            <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2">
+                    {isSlipping === false && (
+                        <button className="px-4 py-2 rounded-full text-gray-900 dark:text-gray-100 border-2 border-green-500 font-semibold" onClick={startSleeping}>
+                            Start sleeping
+                        </button>
+                    )}
 
-                    <span className="material-symbols-outlined">
-                        {themeBag[theme].iconName}
-                    </span>
-                </button>
+                    {isSlipping === true && (
+                        <div className="flex items-center gap-4">
+                            <p class="text-gray-100">02:45:35</p>
+                            <button className="px-4 py-2 rounded-full text-gray-900 dark:text-gray-100 border-2 border-red-500 font-semibold" onClick={stopSleeping}>
+                                Stop sleeping
+                            </button>
+                        </div>
+                    )}
+                </div>
 
-                <button className="flex items-center gap-2 rounded-full px-4 py-2 hover:bg-sky-500/10 text-sky-500" onClick={toggleLanguage}>
-                    {language[i18n.language]}
+                <p className="text-gray-500">or</p>
 
-                    <span className="material-symbols-outlined">
-                        language
-                    </span>
-                </button>
-
-                <button className="flex items-center gap-2 rounded-full px-4 py-2 hover:bg-red-500/10 text-red-500" onClick={logout}>
-                    {t('logout')}
-                    
-                    <span className="material-symbols-outlined">
-                        logout
+                <button className="flex items-center justify-center p-2 border-2 border-blue-500 rounded-full dark:text-gray-100">
+                    <span class="material-symbols-outlined">
+                        add
                     </span>
                 </button>
             </div>
+
         </div>
     )
 }
