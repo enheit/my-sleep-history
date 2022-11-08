@@ -179,8 +179,8 @@ export function Home() {
                 <SessionRecords records={sleepSessionRecords} currentMonth={false} />
             </div>
 
-            <button className="flex self-center gap-2 px-4 py-2  items-center justify-center font-semibold border-2 border-blue-500 text-gray-900 dark:text-gray-100 rounded-full my-4">
-                More
+            <button className="flex self-center gap-2 px-4 py-2  items-center justify-center font-semibold border-2 border-blue-500 text-gray-900 dark:text-gray-100 rounded-full my-12">
+                Show more
             </button>
         </div>
     )

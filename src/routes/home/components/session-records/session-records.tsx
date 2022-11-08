@@ -12,14 +12,14 @@ interface SessionRecordsProps {
 }
 
 export function SessionRecords(props: SessionRecordsProps) {
-    let [isExpanded, setIsExpanded] = useState(props.currentMonth);
-    let previewRecords = props.records.slice(0, 3);
-    let records = isExpanded ? props.records : previewRecords
+    let [expanded, setExpanded] = useState(false);
+    let records = expanded ? props.records : props.records.slice(0, 3);
 
     return (
         <div className="flex flex-col rounded-lg">
-            <h1 className="leading-none text-2xl text-gray-900 dark:text-gray-100 mb-4">November 2022</h1>
-            
+            <h1 className="text-2xl text-gray-900 dark:text-gray-100 mb-4">
+                November 2022
+            </h1>
 
             {props.currentMonth === false && (
                 <div className="flex flex-col gap-4 mt-4 mb-8">
@@ -75,7 +75,6 @@ export function SessionRecords(props: SessionRecordsProps) {
                     </tr>
                 </thead>
                 <tbody>
-                    
                     {records.map((record, index) => {
                         return (
                             <tr className="border-b last:border-none border-gray-200 dark:border-zinc-900" key={index}>
@@ -110,40 +109,26 @@ export function SessionRecords(props: SessionRecordsProps) {
                                     <div className="flex items-center justify-end">
                                         <button className="flex items-center justify-center p-2 dark:text-gray-100 rounded-full">
                                             <span className="material-symbols-outlined">
-                                                edit
-                                            </span>
-                                        </button>
-
-                                        <button className="flex items-center justify-center p-2 dark:text-red-500 rounded-full">
-                                            <span className="material-symbols-outlined">
-                                                delete
+                                                more_horiz
                                             </span>
                                         </button>
                                     </div>
-                                    
                                 </td>
                             </tr>
                         )
                     })}
-
-                    {props.currentMonth === false && isExpanded === false && (
+                    
+                    {expanded === false && (
                         <tr>
-                            <td colSpan={5} className="p-4">
-                                <div className="flex justify-center">
-                                    <button className="flex items-center gap-2 px-4 py-2 text-blue-500 rounded-full" onClick={() => setIsExpanded(true)}>
-                                        {/* Expand all records */}
-                                        <span className="material-symbols-outlined">
-                                            expand_more
-                                        </span>
-
-                                        Expand
+                            <td className="text-gray-100 py-4">
+                                <div className="flex items-center">
+                                    <button className="flex items-center text-blue-500" onClick={() => setExpanded(folded => !folded)}>
+                                        {props.records.length - records.length} more...
                                     </button>
                                 </div>
                             </td>
                         </tr>
                     )}
-
-                    
                 </tbody>
             </table>
         </div>
