@@ -1,21 +1,20 @@
-import { addSeconds, differenceInMilliseconds, format } from 'date-fns';
 import { useRef, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../../firebase/firebase.config';
+import { AddSleepSessionDialog } from './components/add-sleep-session-dialog/add-sleep-session-dialog';
 import { UserProfile } from './components/user-profile/user-profile';
 import { UserProfileSkeleton } from './components/user-profile/user-profile.skeleton';
 
 export function Header() {
+    const [isAddSleepSessionDialogOpen, setIsAddSleepSessionDialogOpen] = useState(true);
     const [ user, userError ] = useAuthState(auth);
+
     let [isSlipping, setIsSleeping] = useState(false);
-    
-    let [startTime, setStartTime] = useState(new Date());
     let [ellapsedSeconds, setEllapsedSeconds] = useState(0);
 
-    const increment = useRef(null);
+    const increment = useRef<NodeJS.Timer | null>(null);
 
     function startSleeping() {
-        setStartTime(new Date());
         setIsSleeping(true)
 
         increment.current = setInterval(() => {
@@ -26,14 +25,20 @@ export function Header() {
     function stopSleeping() {
         setIsSleeping(false)
         setEllapsedSeconds(0);
-        clearInterval(increment.current);
+        clearInterval(increment.current as NodeJS.Timer);
     }
 
-    console.log(ellapsedSeconds, startTime);
+    function formatAsTimer(ellaspedSeconds: number) {
+        return new Date(ellapsedSeconds * 1000).toISOString().substring(11, 19)
+    }
+
+    function toggleSleepSessionDialog() {
+        setIsAddSleepSessionDialogOpen(isOpen => !isOpen);
+    }
 
     return (
         <div className="flex items-center justify-between p-4">
-            {user 
+            {user
                 ? <UserProfile 
                     displayName={user.displayName}
                     email={user.email}
@@ -51,7 +56,7 @@ export function Header() {
 
                     {isSlipping === true && (
                         <div className="flex items-center gap-4">
-                            <p className="text-gray-100">{format(new Date(differenceInMilliseconds(addSeconds(startTime, ellapsedSeconds)), startTime), "HH:mm:ss")}</p>
+                            <p className="text-gray-100">{formatAsTimer(ellapsedSeconds)}</p>
                             <button className="px-4 py-2 rounded-full text-gray-900 dark:text-gray-100 border-2 border-red-500 font-semibold" onClick={stopSleeping}>
                                 Stop sleeping
                             </button>
@@ -61,13 +66,17 @@ export function Header() {
 
                 <p className="text-gray-500">or</p>
 
-                <button className="flex items-center justify-center p-2 border-2 border-blue-500 rounded-full dark:text-gray-100">
+                <button className="flex items-center justify-center p-2 border-2 border-blue-500 rounded-full dark:text-gray-100" onClick={toggleSleepSessionDialog}>
                     <span className="material-symbols-outlined">
                         add
                     </span>
                 </button>
             </div>
 
+            <AddSleepSessionDialog 
+                isOpen={isAddSleepSessionDialogOpen}
+                onClose={toggleSleepSessionDialog}
+            />
         </div>
     )
 }
