@@ -1,11 +1,13 @@
 import { Dialog } from "../../../../components/dialog/dialog";
+import { SleepSessionRecord } from "../session-records/session-records";
 
-interface AddSleepSessionDialogProps {
+interface EditSleepSessionDialogProps {
     isOpen: boolean
-    onClose: () => void
+    onClose: () => void,
+    record: SleepSessionRecord | null
 }
 
-export function AddSleepSessionDialog(props: AddSleepSessionDialogProps) {
+export function EditSleepSessionDialog(props: EditSleepSessionDialogProps) {
     return (
         <Dialog isOpen={props.isOpen}>
             <div>

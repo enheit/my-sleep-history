@@ -6,7 +6,7 @@ import { UserProfile } from './components/user-profile/user-profile';
 import { UserProfileSkeleton } from './components/user-profile/user-profile.skeleton';
 
 export function Header() {
-    const [isAddSleepSessionDialogOpen, setIsAddSleepSessionDialogOpen] = useState(true);
+    const [isAddSleepSessionDialogOpen, setIsAddSleepSessionDialogOpen] = useState(false);
     const [ user, userError ] = useAuthState(auth);
 
     let [isSlipping, setIsSleeping] = useState(false);

@@ -1,4 +1,7 @@
+import { setSelectionRange } from "@testing-library/user-event/dist/utils";
 import { useState } from "react";
+import { Menu } from "../../../../components/menu/menu";
+import { MoreVertMenu } from "../more-vert-menu/more-vert-menu";
 
 export interface SleepSessionRecord {
     date: Date,
@@ -9,11 +12,39 @@ export interface SleepSessionRecord {
 interface SessionRecordsProps {
     currentMonth: boolean,
     records: SleepSessionRecord[]
+    onRecordEdit: (record: SleepSessionRecord) => void
+    onRecordRemove: (record: SleepSessionRecord) => void
 }
 
 export function SessionRecords(props: SessionRecordsProps) {
+    let [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
     let [expanded, setExpanded] = useState(false);
+    let [activeRecord, setActiveRecord] = useState<SleepSessionRecord | null>(null);
     let records = expanded ? props.records : props.records.slice(0, 3);
+
+    function handleMoreClick (event: React.MouseEvent<HTMLButtonElement>, record: SleepSessionRecord) {
+        setActiveRecord(record);
+        setAnchorEl(event.currentTarget);
+    }
+
+    function handleMoreClose () {
+        setAnchorEl(null);
+        setActiveRecord(null);
+    }
+
+    function deleteRecord () {
+        if (activeRecord) {
+            props.onRecordRemove(activeRecord);
+            handleMoreClose();
+        }
+    }
+
+    function editRecord () {
+        if (activeRecord) {
+            props.onRecordEdit(activeRecord);
+            handleMoreClose();
+        }
+    }
 
     return (
         <div className="flex flex-col rounded-lg">
@@ -107,7 +138,7 @@ export function SessionRecords(props: SessionRecordsProps) {
                                 </td>
                                 <td style={{ maxWidth: 60 }}>
                                     <div className="flex items-center justify-end">
-                                        <button className="flex items-center justify-center p-2 dark:text-gray-100 rounded-full">
+                                        <button className="flex items-center justify-center p-2 dark:text-gray-100 rounded-full" onClick={(event) => handleMoreClick(event, record)}>
                                             <span className="material-symbols-outlined">
                                                 more_horiz
                                             </span>
@@ -131,6 +162,14 @@ export function SessionRecords(props: SessionRecordsProps) {
                     )}
                 </tbody>
             </table>
+
+            <MoreVertMenu
+                isOpen={Boolean(anchorEl)} 
+                onClose={handleMoreClose} 
+                anchorEl={anchorEl}
+                onEdit={editRecord}
+                onDelete={deleteRecord}
+            />
         </div>
     )
 }
