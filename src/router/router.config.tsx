@@ -20,7 +20,7 @@ export const router = createHashRouter([
     {
         path: "/welcome",
         element: <PublicOnlyRoute><Welcome /></PublicOnlyRoute> 
-    },
+},
     {
         path: "*",
         element: <NotFound />
