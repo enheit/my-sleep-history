@@ -15,6 +15,9 @@
         "min": "min",
         "sec": "sec"
     },
+    "layout": {
+        "please_note": "Please note, it's demo release"
+    },
     "welcome": {
         "my_sleep_history": "My sleep history",
         "sign_in_with_google": "Sign in with Google",
