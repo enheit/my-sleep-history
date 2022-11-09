@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/my-sleep-history/static/css/main.aa1ab4de.css",
-    "main.js": "/my-sleep-history/static/js/main.d35d9488.js",
+    "main.css": "/my-sleep-history/static/css/main.bb5fd4a8.css",
+    "main.js": "/my-sleep-history/static/js/main.a3fbbf79.js",
     "index.html": "/my-sleep-history/index.html",
-    "main.aa1ab4de.css.map": "/my-sleep-history/static/css/main.aa1ab4de.css.map",
-    "main.d35d9488.js.map": "/my-sleep-history/static/js/main.d35d9488.js.map"
+    "main.bb5fd4a8.css.map": "/my-sleep-history/static/css/main.bb5fd4a8.css.map",
+    "main.a3fbbf79.js.map": "/my-sleep-history/static/js/main.a3fbbf79.js.map"
   },
   "entrypoints": [
-    "static/css/main.aa1ab4de.css",
-    "static/js/main.d35d9488.js"
+    "static/css/main.bb5fd4a8.css",
+    "static/js/main.a3fbbf79.js"
   ]
 }
