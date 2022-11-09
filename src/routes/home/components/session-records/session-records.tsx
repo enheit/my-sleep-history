@@ -54,7 +54,7 @@ export function SessionRecords(props: SessionRecordsProps) {
     function formatDuration(start: Date, end: Date) {
         let duration = intervalToDuration({ start: start, end: end });
 
-        let hours = duration.hours ?? 0;
+        let hours = (duration.hours ?? 0) + ((duration.days ?? 0) * 24);
         let minutes = duration.minutes ?? 0;
         let seconds = duration.seconds ?? 0;
 

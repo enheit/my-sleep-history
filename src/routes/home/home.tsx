@@ -1,186 +1,60 @@
+import { collection, onSnapshot, orderBy, query, Timestamp, where } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { useTranslation } from 'react-i18next';
+import { auth, db } from '../../firebase/firebase.config';
 import { EditSleepSessionDialog } from './components/edit-sleep-session-dialog/edit-sleep-session-dialog';
 import { SessionRecords, SleepSessionRecord } from './components/session-records/session-records';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { addHours, addMinutes, subDays } from 'date-fns';
+import { SessionRecordsSkeleton } from './components/session-records/session-records.skeleton';
+
+interface SleepSessionModel {
+    inBedAd: Timestamp,
+    napping: boolean,
+    wokeUpAt: Timestamp,
+    userId: string
+}
 
 export function Home() {
     const {t, i18n} = useTranslation();
+    const [user] = useAuthState(auth);
+    const [isDataLoading, setIsDataLoading] = useState(false);
+
+    const [sleepSessionRecords, setSleepSessionRecords] = useState<SleepSessionRecord[]>([]);
 
     const isHistoryDataExist = false;
     let [activeRecord, setActiveRecord] = useState<SleepSessionRecord | null>(null);
-    let sleepSessionRecords: SleepSessionRecord[] = [
-        {
-            date: new Date(),
-            inBedAt: subDays(new Date(), 1),
-            wokeUpAt: subDays(addHours(new Date(), 8), 1)
-        },
-        {
-            date: new Date(),
-            inBedAt: subDays(new Date(), 2),
-            wokeUpAt: subDays(addHours(new Date(), 9), 2)
-        },
-        {
-            date: new Date(),
-            inBedAt: subDays(new Date(), 3),
-            wokeUpAt: subDays(addHours(new Date(), 7), 3)
-        },
-        {
-            date: new Date(),
-            inBedAt: subDays(new Date(), 4),
-            wokeUpAt: subDays(addHours(new Date(), 7), 4)
-        },
-        {
-            date: new Date(),
-            inBedAt: new Date(),
-            wokeUpAt: addMinutes(new Date(), 30)
-        },
 
-        {
-            date: new Date(),
-            inBedAt: new Date(),
-            wokeUpAt: addMinutes(new Date(), 30)
-        },
+    useEffect(() => {
+        if (user) {
+            setIsDataLoading(true);
+            const q = query(collection(db, "sleepSessions"), where("userId", "==", user.uid), orderBy("inBedAd", "desc"));
 
-        {
-            date: new Date(),
-            inBedAt: new Date(),
-            wokeUpAt: addMinutes(new Date(), 30)
-        },
-        {
-            date: new Date(),
-            inBedAt: new Date(),
-            wokeUpAt: addMinutes(new Date(), 30)
-        },
+            const unsubscribe = onSnapshot(q, (snapshot) => {
+                
+                snapshot.docChanges().forEach((change) => {
+                  if (change.type === "added") {
+                    let data = change.doc.data() as SleepSessionModel;
 
-        {
-            date: new Date(),
-            inBedAt: new Date(),
-            wokeUpAt: addMinutes(new Date(), 30)
-        },
+                    let record: SleepSessionRecord = {
+                        date: new Date(),
+                        inBedAt: data.inBedAd.toDate(),
+                        wokeUpAt: data.wokeUpAt.toDate()
+                    };
 
-        {
-            date: new Date(),
-            inBedAt: new Date(),
-            wokeUpAt: addMinutes(new Date(), 30)
-        },
-        {
-            date: new Date(),
-            inBedAt: new Date(),
-            wokeUpAt: addMinutes(new Date(), 30)
-        },
-        {
-            date: new Date(),
-            inBedAt: new Date(),
-            wokeUpAt: addMinutes(new Date(), 30)
-        },
+                    setSleepSessionRecords(sleepSessionRecords => [...sleepSessionRecords, record])
+                  }
+                  if (change.type === "modified") {
+                      console.log("Modified city: ", change.doc.data());
+                  }
+                  if (change.type === "removed") {
+                      console.log("Removed city: ", change.doc.data());
+                  }
+                });
 
-        {
-            date: new Date(),
-            inBedAt: new Date(),
-            wokeUpAt: addMinutes(new Date(), 30)
-        },
-
-        {
-            date: new Date(),
-            inBedAt: new Date(),
-            wokeUpAt: addMinutes(new Date(), 30)
-        },
-        {
-            date: new Date(),
-            inBedAt: new Date(),
-            wokeUpAt: addMinutes(new Date(), 30)
-        },
-
-        {
-            date: new Date(),
-            inBedAt: new Date(),
-            wokeUpAt: addMinutes(new Date(), 30)
-        },
-
-        {
-            date: new Date(),
-            inBedAt: new Date(),
-            wokeUpAt: addMinutes(new Date(), 30)
-        },
-        {
-            date: new Date(),
-            inBedAt: new Date(),
-            wokeUpAt: addMinutes(new Date(), 30)
-        },
-
-        {
-            date: new Date(),
-            inBedAt: new Date(),
-            wokeUpAt: addMinutes(new Date(), 30)
-        },
-        {
-            date: new Date(),
-            inBedAt: new Date(),
-            wokeUpAt: addMinutes(new Date(), 30)
-        },
-        {
-            date: new Date(),
-            inBedAt: new Date(),
-            wokeUpAt: addMinutes(new Date(), 30)
-        },
-        {
-            date: new Date(),
-            inBedAt: new Date(),
-            wokeUpAt: addMinutes(new Date(), 30)
-        },
-
-        {
-            date: new Date(),
-            inBedAt: new Date(),
-            wokeUpAt: addMinutes(new Date(), 30)
-        },
-
-        {
-            date: new Date(),
-            inBedAt: new Date(),
-            wokeUpAt: addMinutes(new Date(), 30)
-        },
-        {
-            date: new Date(),
-            inBedAt: new Date(),
-            wokeUpAt: addMinutes(new Date(), 30)
-        },
-
-        {
-            date: new Date(),
-            inBedAt: new Date(),
-            wokeUpAt: addMinutes(new Date(), 30)
-        },
-
-        {
-            date: new Date(),
-            inBedAt: new Date(),
-            wokeUpAt: addMinutes(new Date(), 30)
-        },
-        {
-            date: new Date(),
-            inBedAt: new Date(),
-            wokeUpAt: addMinutes(new Date(), 30)
-        },
-
-        {
-            date: new Date(),
-            inBedAt: new Date(),
-            wokeUpAt: addMinutes(new Date(), 30)
-        },
-
-        {
-            date: new Date(),
-            inBedAt: new Date(),
-            wokeUpAt: addMinutes(new Date(), 30)
-        },
-        {
-            date: new Date(),
-            inBedAt: new Date(),
-            wokeUpAt: addMinutes(new Date(), 30)
-        },
-    ]
+                setIsDataLoading(false);
+            });
+        }
+    }, [user])
 
     function handleRecordEdit (record: SleepSessionRecord) {
         setActiveRecord(record);
@@ -201,8 +75,9 @@ export function Home() {
     return (
         <div className="flex flex-col px-4">
             <div className="flex flex-col gap-16 mt-4">
-                <SessionRecords records={sleepSessionRecords} onRecordEdit={handleRecordEdit} onRecordRemove={handleRecordRemove} currentMonth />
-                <SessionRecords records={sleepSessionRecords} onRecordEdit={handleRecordEdit} onRecordRemove={handleRecordRemove} currentMonth={false} />
+                {isDataLoading && <SessionRecordsSkeleton />}
+                {!isDataLoading && <SessionRecords records={sleepSessionRecords} onRecordEdit={handleRecordEdit} onRecordRemove={handleRecordRemove} currentMonth />}
+                {/* <SessionRecords records={sleepSessionRecords} onRecordEdit={handleRecordEdit} onRecordRemove={handleRecordRemove} currentMonth={false} /> */}
             </div>
 
             {isHistoryDataExist && (

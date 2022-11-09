@@ -1,7 +1,9 @@
-import { useRef, useState } from 'react';
+import { differenceInSeconds } from 'date-fns';
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, Timestamp, where } from 'firebase/firestore';
+import { useRef, useState, useEffect } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useTranslation } from 'react-i18next';
-import { auth } from '../../firebase/firebase.config';
+import { auth, db } from '../../firebase/firebase.config';
 import { AddSleepSessionDialog } from './components/add-sleep-session-dialog/add-sleep-session-dialog';
 import { UserProfile } from './components/user-profile/user-profile';
 import { UserProfileSkeleton } from './components/user-profile/user-profile.skeleton';
@@ -16,18 +18,76 @@ export function Header() {
 
     const increment = useRef<NodeJS.Timer | null>(null);
 
-    function startSleeping() {
-        setIsSleeping(true)
+    useEffect(() => {
+        if (user) {
+            console.log("FETCH");
+            const q = query(collection(db, "activeSleepSessions"), where("userId", "==", user.uid));
 
+            const querySnapshot = getDocs(q).then((querySnapshot) => {
+                if (querySnapshot.size > 0) {
+                    setIsSleeping(true);
+
+                    querySnapshot.docs.map((document) => {
+                        let data = document.data() as { userId: string, startedAt: Timestamp };
+
+                        let seconds = differenceInSeconds(new Date(), data.startedAt.toDate());
+
+                        setEllapsedSeconds(seconds);
+                    });
+                    
+                    startTimer();
+                }
+            });
+        }
+    }, [user])
+
+    async function startSleeping() {
+        if (user) {
+            setIsSleeping(true)
+
+            let newDocRef = collection(db, "activeSleepSessions")
+
+            await addDoc(newDocRef, {
+                startedAt: Timestamp.fromDate(new Date()),
+                userId: user.uid
+            });
+
+            startTimer()
+        }
+    }
+
+    function startTimer() {
         increment.current = setInterval(() => {
             setEllapsedSeconds((timer) => timer + 1)
         }, 1000)
     }
 
-    function stopSleeping() {
-        setIsSleeping(false)
-        setEllapsedSeconds(0);
-        clearInterval(increment.current as NodeJS.Timer);
+    async function stopSleeping() {
+        if (user) {
+            const q = query(collection(db, "activeSleepSessions"), where("userId", "==", user.uid));
+
+            const querySnapshot = await getDocs(q);
+
+            querySnapshot.forEach((document) => {
+                let data = document.data() as { userId: string, startedAt: Timestamp };
+
+                let newDocRef = collection(db, "sleepSessions")
+
+                addDoc(newDocRef, {
+                    inBedAd: data.startedAt,
+                    napping: false,
+                    wokeUpAt: Timestamp.fromDate(new Date()),
+                    userId: user.uid
+                });
+
+                deleteDoc(doc(db, "activeSleepSessions", document.id));
+            });
+
+            setIsSleeping(false)
+            setEllapsedSeconds(0);
+            clearInterval(increment.current as NodeJS.Timer);
+        }
+
     }
 
     function formatAsTimer(ellaspedSeconds: number) {
