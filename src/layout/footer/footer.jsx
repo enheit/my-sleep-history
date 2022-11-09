@@ -1,4 +1,5 @@
 import { signOut } from 'firebase/auth';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { useTranslation } from "react-i18next";
 import { auth } from "../../firebase/firebase.config";
 import { SupportedLocale } from "../../i18n/i18n.config";
@@ -7,6 +8,7 @@ import { SupportedTheme, useTheme } from "../../theme/theme";
 export function Footer() {
     const { t, i18n } = useTranslation();
     let { theme, toggleTheme } = useTheme();
+    // const { user } = useAuthState(auth);
 
     function toggleLanguage() {
         let language = i18n.language === SupportedLocale.English
@@ -76,7 +78,6 @@ export function Footer() {
                     </span>
                 </button>
             </div>
-            
         </div>
     )
 }

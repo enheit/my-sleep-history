@@ -1,6 +1,5 @@
 import './index.css';
 import './i18n/i18n.config';
-// import './firebase/firebase.config';
 
 import { RouterProvider } from 'react-router-dom';
 
