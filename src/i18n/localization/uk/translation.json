@@ -4,5 +4,63 @@
         "light": "Світла",
         "dark": "Темна"
     },
-    "logout": "Вийти"
+    "logout": "Вийти",
+    "header": {
+        "start_sleeping": "Почати спати",
+        "stop_sleeping": "Перестати спати",
+        "or": "або"
+    },
+    "time": {
+        "h": "год",
+        "min": "хв",
+        "sec": "сек"
+    },
+    "home": {
+        "short_summary": {
+            "title": "Короткий зміст",
+            "average_awake_duration": "Середня тривалість пробудження",
+            "in_bed": {
+                "title": "В ліжку",
+                "mostly_in_time": "Переважно вчасно",
+                "mostly_almost_in_time": "Здебільшого майже вчасно",
+                "mostly_out_of_time": "Здебільшого не вчасно"
+            },
+            "woke_up": {
+                "title": "Прокидання",
+                "mostly_in_time": "Переважно вчасно",
+                "mostly_almost_in_time": "Здебільшого майже вчасно",
+                "mostly_out_of_time": "Здебільшого не вчасно"
+            },
+            "average_sleep_duration": "Середня тривалість сну"
+        },
+        "table": {
+            "awake_duration": "Тривалість пробудження",
+            "in_bed_at": "У ліжку о",
+            "woke_up_at": "Прокинувся о",
+            "sleep_duration": "Тривалість сну",
+            "more": "більше",
+            "unknown": "Невідомо",
+            "actions": {
+                "edit": "Редагувати",
+                "delete": "Видалити"
+            }
+        },
+        "edit_sleep_session_dialog": {
+            "title": "Редагувати сеанс сну",
+            "in_bed_at": "У ліжку о",
+            "woke_up_at": "Прокинувся о",
+            "nap": "Дрімота",
+            "update": "Оновити",
+            "close": "Закрити"
+        },
+        "create_sleep_session_dialog": {
+            "title": "Додати сеанс сну",
+            "in_bed_at": "У ліжку о",
+            "woke_up_at": "Прокинувся о",
+            "nap": "Дрімота",
+            "create": "Додати",
+            "close": "Закрити"
+        },
+        "show_more": "Показати більше"
+    }
 }

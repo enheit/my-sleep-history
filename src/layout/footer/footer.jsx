@@ -5,7 +5,6 @@ import { SupportedLocale } from "../../i18n/i18n.config";
 import { SupportedTheme, useTheme } from "../../theme/theme";
 
 export function Footer() {
-    
     const { t, i18n } = useTranslation();
     let { theme, toggleTheme } = useTheme();
 
@@ -39,8 +38,8 @@ export function Footer() {
     }
 
     return (
-        <div className="flex text-gray-900 dark:text-gray-100 justify-between p-4">
-            <div className="flex">
+        <div className="flex text-gray-900 dark:text-gray-100 p-4">
+            <div className="flex flex-1">
                 {/* hover:bg-yellow-500/10 text-yellow-500 */}
                 <button className="flex items-center gap-2 rounded-full px-4 py-2 text-gray-400 dark:text-gray-400" onClick={toggleTheme}>
                     {themeBag[theme].title}
@@ -61,14 +60,23 @@ export function Footer() {
             </div>
 
 
-            {/* hover:bg-red-500/10 text-red-500 */}
-            <button className="flex items-center gap-2 rounded-full px-4 py-2 text-gray-400 dark:text-gray-400" onClick={logout}>
-                {t('logout')}
-                
-                <span className="material-symbols-outlined">
-                    logout
-                </span>
-            </button>
+            <div className="flex flex-1 justify-center items-center">
+                <p className="dark:text-gray-400">
+                    v{process.env.REACT_APP_VERSION}
+                </p>
+            </div>
+            
+
+            <div className="flex flex-1 justify-end">
+                <button className="flex items-center gap-2 rounded-full px-4 py-2 text-gray-400 dark:text-gray-400" onClick={logout}>
+                    {t('logout')}
+                    
+                    <span className="material-symbols-outlined">
+                        logout
+                    </span>
+                </button>
+            </div>
+            
         </div>
     )
 }

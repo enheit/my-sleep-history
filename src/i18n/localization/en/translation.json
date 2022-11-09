@@ -4,5 +4,63 @@
         "light": "Light",
         "dark": "Dark"
     },
-    "logout": "Logout"
+    "logout": "Logout",
+    "header": {
+        "start_sleeping": "Start sleeping",
+        "stop_sleeping": "Stop sleeping",
+        "or": "or"
+    },
+    "time": {
+        "h": "h",
+        "min": "min",
+        "sec": "sec"
+    },
+    "home": {
+        "short_summary": {
+            "title": "Short summary",
+            "average_awake_duration": "Average awake duration",
+            "in_bed": {
+                "title": "In bed",
+                "mostly_in_time": "Mostly In Time",
+                "mostly_almost_in_time": "Mostly Almost In Time",
+                "mostly_out_of_time": "Mostly Out Of Time"
+            },
+            "woke_up": {
+                "title": "Woke up",
+                "mostly_in_time": "Mostly In Time",
+                "mostly_almost_in_time": "Mostly Almost In Time",
+                "mostly_out_of_time": "Mostly Out Of Time"
+            },
+            "average_sleep_duration": "Average sleep duraiton"
+        },
+        "table": {
+            "awake_duration": "Awake duration",
+            "in_bed_at": "In bed at",
+            "woke_up_at": "Woke up at",
+            "sleep_duration": "Sleep duration",
+            "more": "more",
+            "unknown": "Unknown",
+            "actions": {
+                "edit": "Edit",
+                "delete": "Delete"
+            }
+        },
+        "edit_sleep_session_dialog": {
+            "title": "Edit sleep session",
+            "in_bed_at": "In bed at",
+            "woke_up_at": "Woke up at",
+            "nap": "Nap",
+            "update": "Update",
+            "close": "Close"
+        },
+        "create_sleep_session_dialog": {
+            "title": "Sleep session",
+            "in_bed_at": "In bed at",
+            "woke_up_at": "Woke up at",
+            "nap": "Nap",
+            "create": "Create",
+            "close": "Close"
+        },
+        "show_more": "Show more"
+    }
 }
