@@ -7,19 +7,17 @@ interface Props {
 }
 
 export function PrivateRoute(props: Props): JSX.Element | null {
-    // const [user, loading, error] = useAuthState(auth);
+    const [user, loading, error] = useAuthState(auth);
 
-    // let isAuthenticated = user !== undefined && user !== null;
+    let isAuthenticated = user !== undefined && user !== null;
 
-    // if (loading) {
-    //     return null;
-    // }
+    if (loading) {
+        return null;
+    }
 
-    // if (isAuthenticated) {
-    //     return props.children;
-    // }
+    if (isAuthenticated) {
+        return props.children;
+    }
 
-    // return <Navigate to={"/welcome"} />
-
-    return props.children;
+    return <Navigate to={"/welcome"} />
 }

@@ -7,17 +7,17 @@ interface Props {
 }
 
 export function PublicOnlyRoute(props: Props): JSX.Element | null {
-    // const [user, loading, error] = useAuthState(auth);
+    const [user, loading, error] = useAuthState(auth);
 
-    // let isAuthenticated = user !== undefined && user !== null;
+    let isAuthenticated = user !== undefined && user !== null;
 
-    // if (loading) {
-    //     return null;
-    // }
+    if (loading) {
+        return null;
+    }
 
-    // if (isAuthenticated) {
-    //     return <Navigate to={"/"} />
-    // }
+    if (isAuthenticated) {
+        return <Navigate to={"/"} />
+    }
 
     return props.children
 }

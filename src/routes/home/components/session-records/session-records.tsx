@@ -69,10 +69,12 @@ export function SessionRecords(props: SessionRecordsProps) {
         } 
     }
 
+    let titleDate = props.records[0]?.inBedAt ?? new Date();
+
     return (
         <div className="flex flex-col rounded-lg">
             <h1 className="text-2xl text-gray-900 dark:text-gray-100 mb-4 capitalize">
-                {format(props.records[0].inBedAt, isThisYear(props.records[0].inBedAt) ? "LLLL" : "LLLL yyyy", { locale })}
+                {format(titleDate, isThisYear(titleDate) ? "LLLL" : "LLLL yyyy", { locale })}
             </h1>
 
             {props.currentMonth === false && (
@@ -103,11 +105,10 @@ export function SessionRecords(props: SessionRecordsProps) {
                 </div>
             )}
 
-
-            <table className="w-full table-auto">
+            <table className="w-full table-auto rounded-xl">
                 <thead>
-                    <tr className="text-left">
-                        <th className="py-4 text-gray-900 dark:text-gray-100">{t('home.table.awake_duration')}</th>
+                    <tr className="text-left bg-zinc-200/20 dark:bg-zinc-900/20">
+                        <th className="p-4 text-gray-900 dark:text-gray-100">{t('home.table.awake_duration')}</th>
                         <th className="p-4">
                             <div className="flex items-center gap-2">
                                 <p className="text-gray-900 dark:text-gray-100">{t('home.table.in_bed_at')}</p>
@@ -120,12 +121,13 @@ export function SessionRecords(props: SessionRecordsProps) {
                                 <span title="Mostly Almost In Time" className="w-2 h-2 bg-orange-500 rounded-full"></span>
                             </div>
                         </th>
-                        <th className="py-4 text-gray-900 dark:text-gray-100">
+                        <th className="p-4 text-gray-900 dark:text-gray-100">
                         <div className="flex items-center gap-2">
                                 <p className="text-gray-900 dark:text-gray-100">{t('home.table.sleep_duration')}</p>
                                 <span title="Mostly Almost In Time" className="w-2 h-2 bg-red-500 rounded-full"></span>
                             </div>
                         </th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -133,8 +135,8 @@ export function SessionRecords(props: SessionRecordsProps) {
                         let isRecordExist = props.records[index + 1];
 
                         return (
-                            <tr className="border-b last:border-none border-gray-200 dark:border-zinc-900" key={index}>
-                                <td className="py-4 text-gray-900 dark:text-gray-100">{isRecordExist ? formatDuration(props.records[index + 1].wokeUpAt, record.inBedAt) : t("home.table.unknown")}</td>
+                            <tr className="border-t border-zinc-100 dark:border-zinc-900" key={index}>
+                                <td className="p-4 text-gray-900 dark:text-gray-100">{isRecordExist ? formatDuration(props.records[index + 1].wokeUpAt, record.inBedAt) : t("home.table.unknown")}</td>
                                 <td className="p-4">
                                     <div className="flex flex-col">
                                         <div className="flex items-center gap-2">
@@ -155,7 +157,7 @@ export function SessionRecords(props: SessionRecordsProps) {
                                         <span className="text-sm text-gray-400 capitalize">{format(record.wokeUpAt, "EEEE, d MMM", { locale })}</span>
                                     </div>
                                 </td>
-                                <td className="py-4">
+                                <td className="p-4">
                                     <div className="flex items-center gap-2">
                                         <p className="text-gray-900 dark:text-gray-100">{formatDuration(record.inBedAt, record.wokeUpAt)}</p>
                                         <span className="w-2 h-2 bg-red-500 rounded-full"></span>
@@ -173,9 +175,20 @@ export function SessionRecords(props: SessionRecordsProps) {
                             </tr>
                         )
                     })}
+
+                    {props.records.length === 0 && (
+                        <tr className="border-t border-zinc-100 dark:border-zinc-900">
+                            <td colSpan={4} className="dark:text-zinc-100 p-8">
+                                <div className="flex flex-col items-center gap-2 leading-none">
+                                    <p>{t('home.table.no_records')}</p>
+                                    <p className="dark:text-zinc-600">{t('home.table.tip')}</p>
+                                </div>
+                            </td>
+                        </tr>
+                    )}
                     
                     {props.records.length > 3 && expanded === false && (
-                        <tr>
+                        <tr className="border-t border-zinc-100 dark:border-zinc-900">
                             <td className="text-gray-100 py-4">
                                 <div className="flex items-center">
                                     <button className="flex items-center text-blue-500" onClick={() => setExpanded(folded => !folded)}>

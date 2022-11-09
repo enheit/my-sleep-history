@@ -40,6 +40,8 @@
             "sleep_duration": "Sleep duration",
             "more": "more",
             "unknown": "Unknown",
+            "no_records": "You have no records",
+            "tip": "Use \"Start sleeping\" or \"+\" buttons to create your first record",
             "actions": {
                 "edit": "Edit",
                 "delete": "Delete"

@@ -7,6 +7,7 @@ import { addHours, addMinutes, subDays } from 'date-fns';
 export function Home() {
     const {t, i18n} = useTranslation();
 
+    const isHistoryDataExist = false;
     let [activeRecord, setActiveRecord] = useState<SleepSessionRecord | null>(null);
     let sleepSessionRecords: SleepSessionRecord[] = [
         {
@@ -29,157 +30,156 @@ export function Home() {
             inBedAt: subDays(new Date(), 4),
             wokeUpAt: subDays(addHours(new Date(), 7), 4)
         },
-        // {
-        //     date: new Date(),
-        //     inBedAt: new Date(),
-        //     wokeUpAt: addMinutes(new Date(), 30)
-        // },
+        {
+            date: new Date(),
+            inBedAt: new Date(),
+            wokeUpAt: addMinutes(new Date(), 30)
+        },
 
-        // {
-        //     date: new Date(),
-        //     inBedAt: new Date(),
-        //     wokeUpAt: addMinutes(new Date(), 30)
-        // },
+        {
+            date: new Date(),
+            inBedAt: new Date(),
+            wokeUpAt: addMinutes(new Date(), 30)
+        },
 
-        // {
-        //     date: new Date(),
-        //     inBedAt: new Date(),
-        //     wokeUpAt: addMinutes(new Date(), 30)
-        // },
-        // {
-        //     date: new Date(),
-        //     inBedAt: new Date(),
-        //     wokeUpAt: addMinutes(new Date(), 30)
-        // },
+        {
+            date: new Date(),
+            inBedAt: new Date(),
+            wokeUpAt: addMinutes(new Date(), 30)
+        },
+        {
+            date: new Date(),
+            inBedAt: new Date(),
+            wokeUpAt: addMinutes(new Date(), 30)
+        },
 
-        // {
-        //     date: new Date(),
-        //     inBedAt: new Date(),
-        //     wokeUpAt: addMinutes(new Date(), 30)
-        // },
+        {
+            date: new Date(),
+            inBedAt: new Date(),
+            wokeUpAt: addMinutes(new Date(), 30)
+        },
 
-        // {
-        //     date: new Date(),
-        //     inBedAt: new Date(),
-        //     wokeUpAt: addMinutes(new Date(), 30)
-        // },
-        // {
-        //     date: new Date(),
-        //     inBedAt: new Date(),
-        //     wokeUpAt: addMinutes(new Date(), 30)
-        // },
-        // {
-        //     date: new Date(),
-        //     inBedAt: new Date(),
-        //     wokeUpAt: addMinutes(new Date(), 30)
-        // },
+        {
+            date: new Date(),
+            inBedAt: new Date(),
+            wokeUpAt: addMinutes(new Date(), 30)
+        },
+        {
+            date: new Date(),
+            inBedAt: new Date(),
+            wokeUpAt: addMinutes(new Date(), 30)
+        },
+        {
+            date: new Date(),
+            inBedAt: new Date(),
+            wokeUpAt: addMinutes(new Date(), 30)
+        },
 
-        // {
-        //     date: new Date(),
-        //     inBedAt: new Date(),
-        //     wokeUpAt: addMinutes(new Date(), 30)
-        // },
+        {
+            date: new Date(),
+            inBedAt: new Date(),
+            wokeUpAt: addMinutes(new Date(), 30)
+        },
 
-        // {
-        //     date: new Date(),
-        //     inBedAt: new Date(),
-        //     wokeUpAt: addMinutes(new Date(), 30)
-        // },
-        // {
-        //     date: new Date(),
-        //     inBedAt: new Date(),
-        //     wokeUpAt: addMinutes(new Date(), 30)
-        // },
+        {
+            date: new Date(),
+            inBedAt: new Date(),
+            wokeUpAt: addMinutes(new Date(), 30)
+        },
+        {
+            date: new Date(),
+            inBedAt: new Date(),
+            wokeUpAt: addMinutes(new Date(), 30)
+        },
 
-        // {
-        //     date: new Date(),
-        //     inBedAt: new Date(),
-        //     wokeUpAt: addMinutes(new Date(), 30)
-        // },
+        {
+            date: new Date(),
+            inBedAt: new Date(),
+            wokeUpAt: addMinutes(new Date(), 30)
+        },
 
-        // {
-        //     date: new Date(),
-        //     inBedAt: new Date(),
-        //     wokeUpAt: addMinutes(new Date(), 30)
-        // },
-        // {
-        //     date: new Date(),
-        //     inBedAt: new Date(),
-        //     wokeUpAt: addMinutes(new Date(), 30)
-        // },
+        {
+            date: new Date(),
+            inBedAt: new Date(),
+            wokeUpAt: addMinutes(new Date(), 30)
+        },
+        {
+            date: new Date(),
+            inBedAt: new Date(),
+            wokeUpAt: addMinutes(new Date(), 30)
+        },
 
-        // {
-        //     date: new Date(),
-        //     inBedAt: new Date(),
-        //     wokeUpAt: addMinutes(new Date(), 30)
-        // },
+        {
+            date: new Date(),
+            inBedAt: new Date(),
+            wokeUpAt: addMinutes(new Date(), 30)
+        },
+        {
+            date: new Date(),
+            inBedAt: new Date(),
+            wokeUpAt: addMinutes(new Date(), 30)
+        },
+        {
+            date: new Date(),
+            inBedAt: new Date(),
+            wokeUpAt: addMinutes(new Date(), 30)
+        },
+        {
+            date: new Date(),
+            inBedAt: new Date(),
+            wokeUpAt: addMinutes(new Date(), 30)
+        },
 
-        // {
-        //     date: new Date(),
-        //     inBedAt: new Date(),
-        //     wokeUpAt: addMinutes(new Date(), 30)
-        // },
-        // {
-        //     date: new Date(),
-        //     inBedAt: new Date(),
-        //     wokeUpAt: addMinutes(new Date(), 30)
-        // },
-        // {
-        //     date: new Date(),
-        //     inBedAt: new Date(),
-        //     wokeUpAt: addMinutes(new Date(), 30)
-        // },
+        {
+            date: new Date(),
+            inBedAt: new Date(),
+            wokeUpAt: addMinutes(new Date(), 30)
+        },
 
-        // {
-        //     date: new Date(),
-        //     inBedAt: new Date(),
-        //     wokeUpAt: addMinutes(new Date(), 30)
-        // },
+        {
+            date: new Date(),
+            inBedAt: new Date(),
+            wokeUpAt: addMinutes(new Date(), 30)
+        },
+        {
+            date: new Date(),
+            inBedAt: new Date(),
+            wokeUpAt: addMinutes(new Date(), 30)
+        },
 
-        // {
-        //     date: new Date(),
-        //     inBedAt: new Date(),
-        //     wokeUpAt: addMinutes(new Date(), 30)
-        // },
-        // {
-        //     date: new Date(),
-        //     inBedAt: new Date(),
-        //     wokeUpAt: addMinutes(new Date(), 30)
-        // },
+        {
+            date: new Date(),
+            inBedAt: new Date(),
+            wokeUpAt: addMinutes(new Date(), 30)
+        },
 
-        // {
-        //     date: new Date(),
-        //     inBedAt: new Date(),
-        //     wokeUpAt: addMinutes(new Date(), 30)
-        // },
+        {
+            date: new Date(),
+            inBedAt: new Date(),
+            wokeUpAt: addMinutes(new Date(), 30)
+        },
+        {
+            date: new Date(),
+            inBedAt: new Date(),
+            wokeUpAt: addMinutes(new Date(), 30)
+        },
 
-        // {
-        //     date: new Date(),
-        //     inBedAt: new Date(),
-        //     wokeUpAt: addMinutes(new Date(), 30)
-        // },
-        // {
-        //     date: new Date(),
-        //     inBedAt: new Date(),
-        //     wokeUpAt: addMinutes(new Date(), 30)
-        // },
+        {
+            date: new Date(),
+            inBedAt: new Date(),
+            wokeUpAt: addMinutes(new Date(), 30)
+        },
 
-        // {
-        //     date: new Date(),
-        //     inBedAt: new Date(),
-        //     wokeUpAt: addMinutes(new Date(), 30)
-        // },
-
-        // {
-        //     date: new Date(),
-        //     inBedAt: new Date(),
-        //     wokeUpAt: addMinutes(new Date(), 30)
-        // },
-        // {
-        //     date: new Date(),
-        //     inBedAt: new Date(),
-        //     wokeUpAt: addMinutes(new Date(), 30)
-        // },
+        {
+            date: new Date(),
+            inBedAt: new Date(),
+            wokeUpAt: addMinutes(new Date(), 30)
+        },
+        {
+            date: new Date(),
+            inBedAt: new Date(),
+            wokeUpAt: addMinutes(new Date(), 30)
+        },
     ]
 
     function handleRecordEdit (record: SleepSessionRecord) {
@@ -205,9 +205,11 @@ export function Home() {
                 <SessionRecords records={sleepSessionRecords} onRecordEdit={handleRecordEdit} onRecordRemove={handleRecordRemove} currentMonth={false} />
             </div>
 
-            <button className="flex self-center gap-2 px-4 py-2  items-center justify-center font-semibold border-2 border-blue-500 text-gray-900 dark:text-gray-100 rounded-full my-12">
-                {t('home.show_more')}
-            </button>
+            {isHistoryDataExist && (
+                <button className="flex self-center gap-2 px-4 py-2 items-center justify-center font-semibold border-2 border-blue-500 text-gray-900 dark:text-gray-100 rounded-full my-12">
+                    {t('home.show_more')}
+                </button>
+            )}
 
             <EditSleepSessionDialog 
                 record={activeRecord}

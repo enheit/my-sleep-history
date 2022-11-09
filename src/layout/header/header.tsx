@@ -9,7 +9,7 @@ import { UserProfileSkeleton } from './components/user-profile/user-profile.skel
 export function Header() {
     const { t } = useTranslation();
     const [isAddSleepSessionDialogOpen, setIsAddSleepSessionDialogOpen] = useState(false);
-    const [ user, userError ] = useAuthState(auth);
+    const [user, userError] = useAuthState(auth);
 
     let [isSlipping, setIsSleeping] = useState(false);
     let [ellapsedSeconds, setEllapsedSeconds] = useState(0);
@@ -41,10 +41,10 @@ export function Header() {
     return (
         <div className="flex items-center justify-between p-4">
             {user
-                ? <UserProfile 
+                ? <UserProfile
                     displayName={user.displayName}
                     email={user.email}
-                    photoUrl={user.photoURL} /> 
+                    photoUrl={user.photoURL} />
                 : <UserProfileSkeleton />
             }
 
@@ -60,7 +60,7 @@ export function Header() {
                         <div className="flex items-center gap-4">
                             <p className="text-gray-100">{formatAsTimer(ellapsedSeconds)}</p>
                             <button className="px-4 py-2 rounded-full text-gray-900 dark:text-gray-100 border-2 border-red-500 font-semibold" onClick={stopSleeping}>
-                            {t('header.stop_sleeping')}
+                                {t('header.stop_sleeping')}
                             </button>
                         </div>
                     )}
@@ -75,7 +75,7 @@ export function Header() {
                 </button>
             </div>
 
-            <AddSleepSessionDialog 
+            <AddSleepSessionDialog
                 isOpen={isAddSleepSessionDialogOpen}
                 onClose={toggleSleepSessionDialog}
             />
