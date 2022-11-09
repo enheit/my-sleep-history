@@ -1,6 +1,5 @@
 {
   "name": "my-sleep-history",
-  "homepage": "https://enheit.github.io/my-sleep-history",
   "version": "1.0.0-alpha",
   "private": true,
   "dependencies": {

@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
 interface ReactPortalProps {
@@ -9,27 +9,36 @@ interface ReactPortalProps {
 export function ReactPortal(props: ReactPortalProps) {
     let [container, setContainer] = useState<HTMLElement | null>(null);
 
-    useLayoutEffect(() => {
-        let container = document.getElementById(props.id);
+    // useLayoutEffect(() => {
+    //     let container = document.getElementById(props.id);
 
-        if (container === null) {
-            const container = document.createElement('div');
-            container.setAttribute("id", props.id);
-            document.body.appendChild(container);
-        }
+    //     console.log("LAYOUT")
 
-        setContainer(container);
+    //     if (container === null) {
+    //         const container = document.createElement('div');
+    //         container.setAttribute("id", props.id);
+    //         document.body.appendChild(container);
 
-        return () => {
-            if (container) {
-                container.remove();
-            }
-        }
-    }, [props.id]);
+    //         console.log("CHILD ADDED", container);
+    //     }
 
-    if (container === null) {
-        return null;
-    }
+    //     setContainer(container);
 
-    return createPortal(props.children, container);
+    //     return () => {
+    //         console.log("BEFORE REMOVED");
+    //         if (container) {
+    //             console.log("REMOVED");
+    //             // container.remove();
+    //             container.parentNode?.removeChild(container)
+    //         }
+    //     }
+    // }, [props.id]);
+
+    // console.log(container);
+
+    // if (container === null) {
+    //     return null;
+    // }
+
+    return createPortal(props.children, document.body);
 }

@@ -31,6 +31,7 @@ export function Menu(props: MenuProps) {
             window.addEventListener('resize', handleResize)   
         } else {
             setMenuEl(null);
+            setPosition({ x: 0, y: 0 });
             window.removeEventListener('resize', handleResize);
         }
     }, [props.isOpen, menuWidth])
@@ -46,19 +47,20 @@ export function Menu(props: MenuProps) {
 
     useEffect(() => {
         function handleClickOutside(event: Event) {
-          if (menuEl && !menuEl.contains(event.target as Node)) {
+            if (menuEl && !menuEl.contains(event.target as Node)) {
             props.onClose();
-          }
+            }
         }
 
         document.addEventListener("mousedown", handleClickOutside, true);
 
         return () => {
-          document.removeEventListener("mousedown", handleClickOutside, true);
+            document.removeEventListener("mousedown", handleClickOutside, true);
         };
-      }, [menuEl]);
+    }, [menuEl]);
 
-    if (props.isOpen === false) {
+    // TODO: pos.x and pos.y prevent menu fouc
+    if (props.isOpen === false || position.x === 0 && position.y === 0) {
         return null;
     }
 

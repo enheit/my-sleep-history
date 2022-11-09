@@ -13,13 +13,13 @@ export const router = createHashRouter([
         children: [
             {
                 index: true,
-                element: <PrivateRoute><Home /></PrivateRoute>
+                element: <Home />
             },
         ],
     },
     {
         path: "/welcome",
-        element: <PublicOnlyRoute><Welcome /></PublicOnlyRoute> 
+        element: <Welcome />
     },
     {
         path: "*",
