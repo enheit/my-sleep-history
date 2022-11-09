@@ -26,6 +26,10 @@
   <title>My Sleep History</title>
 
   <script>
+    if (localStorage.getItem("theme") === null) {
+      localStorage.setItem("theme", "dark");
+    }
+
     if (localStorage.theme === 'dark') {
       document.documentElement.classList.add('dark')
     } else {
