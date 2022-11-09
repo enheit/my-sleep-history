@@ -15,6 +15,11 @@
         "min": "min",
         "sec": "sec"
     },
+    "welcome": {
+        "my_sleep_history": "My sleep history",
+        "sign_in_with_google": "Sign in with Google",
+        "demo_version": "demo version"
+    },
     "home": {
         "short_summary": {
             "title": "Short summary",

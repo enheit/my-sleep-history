@@ -50,10 +50,12 @@ export function Welcome() {
 
                 <div className="flex flex-col items-center gap-12">
                     <div className="flex flex-col items-center gap-2">
-                        <p className="text-4xl font-semibold text-gray-800 dark:text-gray-100">My Sleep History</p>
+                        <p className="text-4xl font-semibold text-gray-800 dark:text-gray-100">{t('welcome.my_sleep_history')}</p>
                     </div>
 
-                    <button className="border-2 border-blue-500 dark:text-gray-100 px-4 py-2 rounded-full" onClick={signInWithGoogle}>Sign in with Google</button>
+                    <button className="border-2 border-blue-500 dark:text-gray-100 px-4 py-2 rounded-full" onClick={signInWithGoogle}>
+                        {t('welcome.sign_in_with_google')}
+                    </button>
 
                     <div className="flex gap-4">
                         <div className="flex items-center gap-2 text-gray-400 dark:text-gray-800">
@@ -61,7 +63,7 @@ export function Welcome() {
                                 touch_app
                             </span>
 
-                            <p className="text-sm font-semibold uppercase">demo version</p>
+                            <p className="text-sm font-semibold uppercase">{t('welcome.demo_version')}</p>
                         </div>
                     </div>
                 </div>

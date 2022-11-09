@@ -15,6 +15,11 @@
         "min": "хв",
         "sec": "сек"
     },
+    "welcome": {
+        "my_sleep_history": "Моя історія сну",
+        "sign_in_with_google": "Увійти за допомогою Google",
+        "demo_version": "Демо версія"
+    },
     "home": {
         "short_summary": {
             "title": "Короткий зміст",
