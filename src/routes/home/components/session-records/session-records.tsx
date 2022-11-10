@@ -108,7 +108,7 @@ export function SessionRecords(props: SessionRecordsProps) {
                 {t('home.table.your_sleep_history')}
             </h1>
 
-            {props.currentMonth === false && (
+            {props.records.length > 0 && (
                 <div className="flex flex-col gap-4 mt-4 mb-8">
                     <h1 className="font-bold text-gray-900 dark:text-gray-100">{t('home.short_summary.title')}</h1>
         
