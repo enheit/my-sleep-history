@@ -4,11 +4,15 @@ import { useTranslation } from "react-i18next";
 import { MoreVertMenu } from "../more-vert-menu/more-vert-menu";
 import { uk, enGB } from 'date-fns/locale';
 import { SupportedLocale } from "../../../../i18n/i18n.config";
+import { deleteDoc, doc } from "firebase/firestore";
+import { db } from "../../../../firebase/firebase.config";
 
 export interface SleepSessionRecord {
+    id: string
     date: Date,
     inBedAt: Date,
     wokeUpAt: Date,
+    napping: boolean
 }
 
 interface SessionRecordsProps {
@@ -37,10 +41,11 @@ export function SessionRecords(props: SessionRecordsProps) {
         setActiveRecord(null);
     }
 
-    function deleteRecord () {
+    async function deleteRecord () {
         if (activeRecord) {
             props.onRecordRemove(activeRecord);
             handleMoreClose();
+            
         }
     }
 

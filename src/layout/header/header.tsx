@@ -20,7 +20,6 @@ export function Header() {
 
     useEffect(() => {
         if (user) {
-            console.log("FETCH");
             const q = query(collection(db, "activeSleepSessions"), where("userId", "==", user.uid));
 
             const querySnapshot = getDocs(q).then((querySnapshot) => {

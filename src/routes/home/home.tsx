@@ -1,4 +1,4 @@
-import { collection, onSnapshot, orderBy, query, Timestamp, where } from 'firebase/firestore';
+import { collection, deleteDoc, doc, onSnapshot, orderBy, query, Timestamp, where } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useTranslation } from 'react-i18next';
@@ -15,7 +15,7 @@ interface SleepSessionModel {
 }
 
 export function Home() {
-    const {t, i18n} = useTranslation();
+    const { t, i18n } = useTranslation();
     const [user] = useAuthState(auth);
     const [isDataLoading, setIsDataLoading] = useState(false);
 
@@ -30,25 +30,41 @@ export function Home() {
             const q = query(collection(db, "sleepSessions"), where("userId", "==", user.uid), orderBy("inBedAd", "desc"));
 
             const unsubscribe = onSnapshot(q, (snapshot) => {
-                
+
                 snapshot.docChanges().forEach((change) => {
-                  if (change.type === "added") {
-                    let data = change.doc.data() as SleepSessionModel;
+                    if (change.type === "added") {
+                        let data = change.doc.data() as SleepSessionModel;
 
-                    let record: SleepSessionRecord = {
-                        date: new Date(),
-                        inBedAt: data.inBedAd.toDate(),
-                        wokeUpAt: data.wokeUpAt.toDate()
-                    };
+                        let record: SleepSessionRecord = {
+                            id: change.doc.id,
+                            date: new Date(),
+                            inBedAt: data.inBedAd.toDate(),
+                            wokeUpAt: data.wokeUpAt.toDate(),
+                            napping: data.napping
+                        };
 
-                    setSleepSessionRecords(sleepSessionRecords => [...sleepSessionRecords, record])
-                  }
-                  if (change.type === "modified") {
-                      console.log("Modified city: ", change.doc.data());
-                  }
-                  if (change.type === "removed") {
-                      console.log("Removed city: ", change.doc.data());
-                  }
+                        setSleepSessionRecords(sleepSessionRecords => [...sleepSessionRecords, record])
+                    }
+                    if (change.type === "modified") {
+                        let data = change.doc.data() as SleepSessionModel;
+
+                        setSleepSessionRecords(records => records.map(record => { 
+                            if (record.id === change.doc.id) {
+                                return {
+                                    ...record, 
+                                    napping: data.napping, 
+                                    inBedAt: data.inBedAd.toDate(), 
+                                    wokeUpAt:data.wokeUpAt.toDate() 
+                                }
+                            }
+
+                            return record
+                        }))
+                    }
+
+                    if (change.type === "removed") {
+                        setSleepSessionRecords(records => records.filter(record => record.id !== change.doc.id))
+                    }
                 });
 
                 setIsDataLoading(false);
@@ -56,15 +72,15 @@ export function Home() {
         }
     }, [user])
 
-    function handleRecordEdit (record: SleepSessionRecord) {
+    function handleRecordEdit(record: SleepSessionRecord) {
         setActiveRecord(record);
     }
 
-    function handleRecordRemove (record: SleepSessionRecord) {
+    async function handleRecordRemove(record: SleepSessionRecord) {
         let isConfirmed = window.confirm("Are you sure you want to delete");
 
         if (isConfirmed) {
-            console.log("DELETE");
+            await deleteDoc(doc(db, "sleepSessions", record.id));
         }
     }
 
@@ -76,7 +92,7 @@ export function Home() {
         <div className="flex flex-col px-4">
             <div className="flex flex-col gap-16 mt-4">
                 {isDataLoading && <SessionRecordsSkeleton />}
-                {!isDataLoading && <SessionRecords records={sleepSessionRecords} onRecordEdit={handleRecordEdit} onRecordRemove={handleRecordRemove} currentMonth />}
+                {!isDataLoading && <SessionRecords records={sleepSessionRecords} onRecordEdit={handleRecordEdit} onRecordRemove={handleRecordRemove} currentMonth={false} />}
                 {/* <SessionRecords records={sleepSessionRecords} onRecordEdit={handleRecordEdit} onRecordRemove={handleRecordRemove} currentMonth={false} /> */}
             </div>
 
@@ -86,7 +102,7 @@ export function Home() {
                 </button>
             )}
 
-            <EditSleepSessionDialog 
+            <EditSleepSessionDialog
                 record={activeRecord}
                 isOpen={activeRecord !== null}
                 onClose={handleEditSleepSessionDialogClose}
