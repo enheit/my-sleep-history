@@ -7,7 +7,7 @@ export function MainLayout () {
     const { t } = useTranslation();
 
     return (
-        <div className="max-w-screen-lg mx-auto min-h-full grid grid-rows-[auto_1fr_auto]">
+        <div className="max-w-screen-lg mx-auto min-h-full grid grid-cols-1 grid-rows-[auto_1fr_auto]">
             <Header />
             <main>
                 <Outlet />

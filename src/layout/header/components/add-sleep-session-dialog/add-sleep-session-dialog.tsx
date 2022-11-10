@@ -71,7 +71,7 @@ export function AddSleepSessionDialog(props: AddSleepSessionDialogProps) {
                 <h1 className="text-xl font-semibold dark:text-gray-100">{t('home.create_sleep_session_dialog.title')}</h1>
 
                 <div className="flex flex-col gap-4 mt-8">
-                    <div className="flex gap-4">
+                    <div className="flex md:flex-row flex-col gap-4">
                         <div className="flex grow flex-col gap-2">
                             <label htmlFor="in-bed-at" className="dark:text-gray-100">{t('home.create_sleep_session_dialog.in_bed_at')}</label>
                             <input onChange={onInBedTimeChange} id="in-bed-at" type="datetime-local" className="px-4 py-2 rounded-xl border border-gray-100 dark:border-gray-500 bg-transparent dark:text-gray-100" />

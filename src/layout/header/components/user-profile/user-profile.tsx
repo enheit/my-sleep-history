@@ -19,10 +19,9 @@ export function UserProfile(props: UserProfileProps) {
                 )
             }
 
-
             <div className="flex flex-col">
                 <p className="leading-none text-gray-900 dark:text-white  font-semibold">{props.displayName ?? "Unknown"}</p>
-                {props.email !== null && <p className="text-gray-400">{props.email}</p>}
+                {props.email !== null && <p className="hidden md:flex text-gray-400">{props.email}</p>}
             </div>
         </div>
     )

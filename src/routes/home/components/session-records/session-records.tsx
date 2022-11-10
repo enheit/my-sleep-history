@@ -26,13 +26,14 @@ interface SessionRecordsProps {
 export function SessionRecords(props: SessionRecordsProps) {
     const { t, i18n } = useTranslation();
     let locale = i18n.language === SupportedLocale.English ? enGB : uk;
+    const cuttedRecordsNumber = 3;
 
     let [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
     let [expanded, setExpanded] = useState(false);
     let [activeRecord, setActiveRecord] = useState<SleepSessionRecord | null>(null);
     
     let sortedRecords = props.records.sort((a, b) => b.inBedAt.getTime() - a.inBedAt.getTime())
-    let records = expanded ? sortedRecords : sortedRecords.slice(0, 3);
+    let records = expanded ? sortedRecords : sortedRecords.slice(0, cuttedRecordsNumber);
 
     const totalSleepDuration = sortedRecords
         .filter(record => record.napping === false)
@@ -112,7 +113,7 @@ export function SessionRecords(props: SessionRecordsProps) {
                 <div className="flex flex-col gap-4 mt-4 mb-8">
                     <h1 className="font-bold text-gray-900 dark:text-gray-100">{t('home.short_summary.title')}</h1>
         
-                    <div className="flex gap-12">
+                    <div className="flex flex-col md:flex-row gap-4 md:gap-12">
                         <div className="flex flex-col">
                             <p className="text-gray-900 dark:text-gray-100">{t('home.short_summary.average_awake_duration')}</p>
                             <p className="text-gray-900 dark:text-gray-100">{formatDuration(new Date(), addSeconds(new Date(), averageAwakeDuration))}</p>
@@ -140,119 +141,121 @@ export function SessionRecords(props: SessionRecordsProps) {
                 </div>
             )}
 
-            <table className="w-full table-auto rounded-xl">
-                <thead>
-                    <tr className="text-left bg-zinc-200/20 dark:bg-zinc-900/20">
-                        <th className="p-4 text-gray-900 dark:text-gray-100">{t('home.table.awake_duration')}</th>
-                        <th className="p-4">
+            <div className="overflow-x-auto">
+                <table style={{ minWidth: 800 }} className="w-full table-auto rounded-xl">
+                    <thead>
+                        <tr className="text-left bg-zinc-200/20 dark:bg-zinc-900/20">
+                            <th className="p-4 md:p-4 text-gray-900 dark:text-gray-100">{t('home.table.awake_duration')}</th>
+                            <th className="p-4 md:p-4">
+                                <div className="flex items-center gap-2">
+                                    <p className="text-gray-900 dark:text-gray-100">{t('home.table.in_bed_at')}</p>
+                                    {/* <span title="Mostly In Time" className="w-2 h-2 bg-green-500 rounded-full"></span> */}
+                                </div>
+                            </th>
+                            <th className="p-4 md:p-4">
+                                <div className="flex items-center gap-2">
+                                    <p className="text-gray-900 dark:text-gray-100">{t('home.table.woke_up_at')}</p>
+                                    {/* <span title="Mostly Almost In Time" className="w-2 h-2 bg-orange-500 rounded-full"></span> */}
+                                </div>
+                            </th>
+                            <th className="p-4 md:p-4 text-gray-900 dark:text-gray-100">
                             <div className="flex items-center gap-2">
-                                <p className="text-gray-900 dark:text-gray-100">{t('home.table.in_bed_at')}</p>
-                                {/* <span title="Mostly In Time" className="w-2 h-2 bg-green-500 rounded-full"></span> */}
-                            </div>
-                        </th>
-                        <th className="p-4">
-                            <div className="flex items-center gap-2">
-                                <p className="text-gray-900 dark:text-gray-100">{t('home.table.woke_up_at')}</p>
-                                {/* <span title="Mostly Almost In Time" className="w-2 h-2 bg-orange-500 rounded-full"></span> */}
-                            </div>
-                        </th>
-                        <th className="p-4 text-gray-900 dark:text-gray-100">
-                        <div className="flex items-center gap-2">
-                                <p className="text-gray-900 dark:text-gray-100">{t('home.table.sleep_duration')}</p>
-                                {/* <span title="Mostly Almost In Time" className="w-2 h-2 bg-red-500 rounded-full"></span> */}
-                            </div>
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {records.map((record, index) => {
-                        let isRecordExist = props.records[index + 1];
+                                    <p className="text-gray-900 dark:text-gray-100">{t('home.table.sleep_duration')}</p>
+                                    {/* <span title="Mostly Almost In Time" className="w-2 h-2 bg-red-500 rounded-full"></span> */}
+                                </div>
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {records.map((record, index) => {
+                            let isRecordExist = props.records[index + 1];
 
-                        return (
-                            <tr className="border-t border-zinc-100 dark:border-zinc-900" key={index}>
-                                <td className="p-4 text-gray-900 dark:text-gray-100">{isRecordExist ? formatDuration(props.records[index + 1].wokeUpAt, record.inBedAt) : t("home.table.unknown")}</td>
-                                <td className="p-4">
-                                    <div className="flex flex-col">
-                                        <div className="flex items-center gap-2">
-                                            <p className="text-gray-900 dark:text-gray-100">{format(record.inBedAt, "HH:mm")}</p>
-                                            {/* <span className="w-2 h-2 bg-orange-500 rounded-full"></span> */}
+                            return (
+                                <tr className="border-b border-zinc-100 dark:border-zinc-900" key={index}>
+                                    <td className="p-4 md:p-4 text-gray-900 dark:text-gray-100">{isRecordExist ? formatDuration(props.records[index + 1].wokeUpAt, record.inBedAt) : t("home.table.unknown")}</td>
+                                    <td className="p-4 md:p-4">
+                                        <div className="flex flex-col">
+                                            <div className="flex items-center gap-2">
+                                                <p className="text-gray-900 dark:text-gray-100">{format(record.inBedAt, "HH:mm")}</p>
+                                                {/* <span className="w-2 h-2 bg-orange-500 rounded-full"></span> */}
+                                            </div>
+
+                                            <span className="text-sm text-gray-400 capitalize">{format(record.inBedAt, "EEEE, d MMM", { locale })}</span>
                                         </div>
-
-                                        <span className="text-sm text-gray-400 capitalize">{format(record.inBedAt, "EEEE, d MMM", { locale })}</span>
-                                    </div>
-                                </td>
-                                <td className="p-4">
-                                    <div className="flex flex-col">
-                                        <div className="flex items-center gap-2">
-                                            <p className="text-gray-900 dark:text-gray-100">{format(record.wokeUpAt, "HH:mm")}</p>
-                                            {/* <span className="w-2 h-2 bg-green-500 rounded-full"></span> */}
+                                    </td>
+                                    <td className="p-4 md:p-4">
+                                        <div className="flex flex-col">
+                                            <div className="flex items-center gap-2">
+                                                <p className="text-gray-900 dark:text-gray-100">{format(record.wokeUpAt, "HH:mm")}</p>
+                                                {/* <span className="w-2 h-2 bg-green-500 rounded-full"></span> */}
+                                            </div>
+                                            
+                                            <span className="text-sm text-gray-400 capitalize">{format(record.wokeUpAt, "EEEE, d MMM", { locale })}</span>
                                         </div>
-                                        
-                                        <span className="text-sm text-gray-400 capitalize">{format(record.wokeUpAt, "EEEE, d MMM", { locale })}</span>
-                                    </div>
-                                </td>
-                                <td className="p-4">
-                                    <div className="flex items-center gap-2">
-                                        <p className="text-gray-900 dark:text-gray-100">{formatDuration(record.inBedAt, record.wokeUpAt)}</p>
-                                        {/* <span className="w-2 h-2 bg-red-500 rounded-full"></span> */}
-                                        {record.napping === false && getSleepDurationIndicator(differenceInHours(record.wokeUpAt, record.inBedAt))}
-                                        {record.napping && (
-                                            <span title={t("home.table.napping")} className="material-symbols-outlined text-zinc-300 dark:text-zinc-500">
-                                                bolt
-                                            </span>
-                                        )}
-                                    </div>
-                                </td>
-                                <td style={{ maxWidth: 60 }}>
-                                    <div className="flex items-center justify-end">
-                                        {/* <button className="flex items-center justify-center p-2 dark:text-gray-100 rounded-full" onClick={(event) => handleMoreClick(event, record)}>
-                                            <span className="material-symbols-outlined">
-                                                more_horiz
-                                            </span>
-                                        </button> */}
+                                    </td>
+                                    <td className="p-4 md:p-4">
+                                        <div className="flex items-center gap-2">
+                                            <p className="text-gray-900 dark:text-gray-100">{formatDuration(record.inBedAt, record.wokeUpAt)}</p>
+                                            {/* <span className="w-2 h-2 bg-red-500 rounded-full"></span> */}
+                                            {record.napping === false && getSleepDurationIndicator(differenceInHours(record.wokeUpAt, record.inBedAt))}
+                                            {record.napping && (
+                                                <span title={t("home.table.napping")} className="material-symbols-outlined text-zinc-300 dark:text-zinc-500">
+                                                    bolt
+                                                </span>
+                                            )}
+                                        </div>
+                                    </td>
+                                    <td style={{ maxWidth: 60 }}>
+                                        <div className="flex items-center justify-end">
+                                            {/* <button className="flex items-center justify-center p-2 dark:text-gray-100 rounded-full" onClick={(event) => handleMoreClick(event, record)}>
+                                                <span className="material-symbols-outlined">
+                                                    more_horiz
+                                                </span>
+                                            </button> */}
 
-                                        <button className="flex items-center justify-center p-2 text-blue-500 dark:text-zinc-800 rounded-full" onClick={() => editRecord(record)}>
-                                            <span className="material-symbols-outlined">
-                                                edit
-                                            </span>
-                                        </button>
+                                            <button className="flex items-center justify-center p-2 text-blue-500 dark:text-zinc-800 rounded-full" onClick={() => editRecord(record)}>
+                                                <span className="material-symbols-outlined">
+                                                    edit
+                                                </span>
+                                            </button>
 
-                                        <button className="flex items-center justify-center p-2 text-red-500 dark:text-red-900 rounded-full" onClick={() => deleteRecord(record)}>
-                                            <span className="material-symbols-outlined">
-                                                delete
-                                            </span>
-                                        </button>
+                                            <button className="flex items-center justify-center p-2 text-red-500 dark:text-red-900 rounded-full" onClick={() => deleteRecord(record)}>
+                                                <span className="material-symbols-outlined">
+                                                    delete
+                                                </span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            )
+                        })}
+
+                        {props.records.length === 0 && (
+                            <tr className="border-t border-zinc-100 dark:border-zinc-900">
+                                <td colSpan={4} className="dark:text-zinc-100 p-8">
+                                    <div className="flex flex-col items-center gap-2 leading-none">
+                                        <p>{t('home.table.no_records')}</p>
+                                        <p className="dark:text-zinc-600">{t('home.table.tip')}</p>
                                     </div>
                                 </td>
                             </tr>
-                        )
-                    })}
+                        )}
+                        
+                        
+                    </tbody>
+                </table>
+            </div>
 
-                    {props.records.length === 0 && (
-                        <tr className="border-t border-zinc-100 dark:border-zinc-900">
-                            <td colSpan={4} className="dark:text-zinc-100 p-8">
-                                <div className="flex flex-col items-center gap-2 leading-none">
-                                    <p>{t('home.table.no_records')}</p>
-                                    <p className="dark:text-zinc-600">{t('home.table.tip')}</p>
-                                </div>
-                            </td>
-                        </tr>
-                    )}
-                    
-                    {props.records.length > 3 && expanded === false && (
-                        <tr className="border-t border-zinc-100 dark:border-zinc-900">
-                            <td className="text-gray-100 py-4">
-                                <div className="flex items-center">
-                                    <button className="flex items-center text-blue-500" onClick={() => setExpanded(folded => !folded)}>
-                                        {props.records.length - records.length} {t('home.table.more')}...
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
+            {props.records.length > cuttedRecordsNumber && expanded === false && (
+                <div className="p-4">
+                    <button className="flex items-center text-blue-500" onClick={() => setExpanded(folded => !folded)}>
+                        {props.records.length - records.length} {t('home.table.more')}...
+                    </button>
+                </div>
+                
+            )}
+
 
             {/* <MoreVertMenu
                 isOpen={Boolean(anchorEl)} 

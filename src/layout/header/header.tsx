@@ -110,22 +110,37 @@ export function Header() {
             <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2">
                     {isSlipping === false && (
-                        <button className="px-4 py-2 rounded-full text-gray-900 dark:text-gray-100 border-2 border-green-500 font-semibold" onClick={startSleeping}>
-                            {t('header.start_sleeping')}
+                        <button className="flex items-center justify-center p-2 md:px-4 md:py-2 rounded-full text-gray-900 dark:text-gray-100 border-2 border-green-500 font-semibold" onClick={startSleeping}>
+                            <span className="md:hidden material-symbols-outlined">
+                                play_arrow
+                            </span>
+
+                            <span className="hidden md:block">
+                                {t('header.start_sleeping')}
+                            </span>
+                            
                         </button>
                     )}
 
                     {isSlipping === true && (
                         <div className="flex items-center gap-4">
                             <p className="text-gray-100">{formatAsTimer(ellapsedSeconds)}</p>
-                            <button className="px-4 py-2 rounded-full text-gray-900 dark:text-gray-100 border-2 border-red-500 font-semibold" onClick={stopSleeping}>
-                                {t('header.stop_sleeping')}
+                            <button className="flex items-center justify-center p-2 md:px-4 md:py-2 rounded-full text-gray-900 dark:text-gray-100 border-2 border-red-500 font-semibold" onClick={stopSleeping}>
+
+                                <span className="md:hidden material-symbols-outlined">
+                                    stop
+                                </span>
+
+                                <span className="hidden md:block">
+                                    {t('header.stop_sleeping')}
+                                </span>
+
                             </button>
                         </div>
                     )}
                 </div>
 
-                <p className="text-gray-500">{t('header.or')}</p>
+                <p className="hidden md:block text-gray-500">{t('header.or')}</p>
 
                 <button className="flex items-center justify-center p-2 border-2 border-blue-500 rounded-full dark:text-gray-100" onClick={toggleSleepSessionDialog}>
                     <span className="material-symbols-outlined">
