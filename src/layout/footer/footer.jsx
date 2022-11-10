@@ -63,7 +63,7 @@ export function Footer() {
 
 
             <div className="flex flex-1 justify-center items-center">
-                <p className="dark:text-gray-400">
+                <p className="text-gray-400 dark:text-gray-400">
                     v{process.env.REACT_APP_VERSION}
                 </p>
             </div>

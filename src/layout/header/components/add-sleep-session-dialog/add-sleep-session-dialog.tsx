@@ -53,7 +53,7 @@ export function AddSleepSessionDialog(props: AddSleepSessionDialogProps) {
             let newDocRef = collection(db, "sleepSessions")
 
             await addDoc(newDocRef, {
-                inBedAd: Timestamp.fromDate(new Date(formState.inBedAt)) ,
+                inBedAt: Timestamp.fromDate(new Date(formState.inBedAt)) ,
                 napping: formState.napping,
                 wokeUpAt: Timestamp.fromDate(new Date(formState.wokeUpAt)) ,
                 userId: user.uid

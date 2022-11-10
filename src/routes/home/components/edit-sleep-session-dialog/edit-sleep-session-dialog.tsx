@@ -68,7 +68,7 @@ export function EditSleepSessionDialog(props: EditSleepSessionDialogProps) {
             let docToUpdate = doc(db, "sleepSessions", props.record.id)
 
             await updateDoc(docToUpdate, {
-                inBedAd: Timestamp.fromDate(formState.inBedAt) ,
+                inBedAt: Timestamp.fromDate(formState.inBedAt) ,
                 napping: formState.napping,
                 wokeUpAt: Timestamp.fromDate(formState.wokeUpAt) ,
                 userId: user.uid

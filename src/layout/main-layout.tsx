@@ -7,15 +7,7 @@ export function MainLayout () {
     const { t } = useTranslation();
 
     return (
-        <div className="max-w-screen-lg mx-auto min-h-full grid grid-rows-[auto_auto_1fr_auto]">
-            <div className="flex gap-2 text-red-500 p-4">
-                <span className="material-symbols-outlined">
-                    warning
-                </span>
-
-                {t('layout.please_note')}
-            </div>
-
+        <div className="max-w-screen-lg mx-auto min-h-full grid grid-rows-[auto_1fr_auto]">
             <Header />
             <main>
                 <Outlet />

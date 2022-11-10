@@ -15,15 +15,13 @@
         "min": "хв",
         "sec": "сек"
     },
-    "layout": {
-        "please_note": "Зверніть увагу, що це демо-версія"
-    },
     "welcome": {
         "my_sleep_history": "Моя історія сну",
         "sign_in_with_google": "Увійти за допомогою Google",
-        "demo_version": "Демо версія"
+        "public_alpha": "Публічна альфа"
     },
     "home": {
+        "record_delete_confirmation": "Ви впевнені, що хочете видалити цей запис?",
         "short_summary": {
             "title": "Короткий зміст",
             "average_awake_duration": "Середня тривалість пробудження",
@@ -42,6 +40,8 @@
             "average_sleep_duration": "Середня тривалість сну"
         },
         "table": {
+            "napping": "Дрімота",
+            "your_sleep_history": "Ваша історія сну",
             "awake_duration": "Тривалість пробудження",
             "in_bed_at": "У ліжку о",
             "woke_up_at": "Прокинувся о",

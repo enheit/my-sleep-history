@@ -73,7 +73,7 @@ export function Header() {
                 let newDocRef = collection(db, "sleepSessions")
 
                 addDoc(newDocRef, {
-                    inBedAd: data.startedAt,
+                    inBedAt: data.startedAt,
                     napping: false,
                     wokeUpAt: Timestamp.fromDate(new Date()),
                     userId: user.uid

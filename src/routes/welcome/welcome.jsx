@@ -60,10 +60,10 @@ export function Welcome() {
                     <div className="flex gap-4">
                         <div className="flex items-center gap-2 text-gray-400 dark:text-gray-800">
                             <span className="material-symbols-outlined ">
-                                touch_app
+                                bug_report
                             </span>
 
-                            <p className="text-sm font-semibold uppercase">{t('welcome.demo_version')}</p>
+                            <p className="text-sm font-semibold uppercase">{t('welcome.public_alpha')}</p>
                         </div>
                     </div>
                 </div>

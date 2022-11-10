@@ -1,4 +1,4 @@
-import { format, intervalToDuration, isThisYear, min } from "date-fns";
+import { addSeconds, differenceInHours, differenceInMinutes, differenceInSeconds, format, intervalToDuration, isThisYear, min } from "date-fns";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MoreVertMenu } from "../more-vert-menu/more-vert-menu";
@@ -22,6 +22,7 @@ interface SessionRecordsProps {
     onRecordRemove: (record: SleepSessionRecord) => void
 }
 
+
 export function SessionRecords(props: SessionRecordsProps) {
     const { t, i18n } = useTranslation();
     let locale = i18n.language === SupportedLocale.English ? enGB : uk;
@@ -29,7 +30,29 @@ export function SessionRecords(props: SessionRecordsProps) {
     let [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
     let [expanded, setExpanded] = useState(false);
     let [activeRecord, setActiveRecord] = useState<SleepSessionRecord | null>(null);
-    let records = expanded ? props.records : props.records.slice(0, 3);
+    
+    let sortedRecords = props.records.sort((a, b) => b.inBedAt.getTime() - a.inBedAt.getTime())
+    let records = expanded ? sortedRecords : sortedRecords.slice(0, 3);
+
+    const totalSleepDuration = sortedRecords
+        .filter(record => record.napping === false)
+        .map((record) => differenceInSeconds(record.wokeUpAt, record.inBedAt))
+        .reduce((acc, seconds) => acc + seconds, 0);
+
+    const averageSleepDuration = sortedRecords.length === 0 ? 0 : Math.floor(totalSleepDuration / sortedRecords.length);
+
+    const totalAwakeDuration = sortedRecords
+        .filter(record => record.napping === false)
+        .map((record, index, arr) => {
+            if (arr[index + 1] !== undefined) {
+                return differenceInSeconds(arr[index + 1].wokeUpAt, record.inBedAt)
+            }
+            
+            return 0
+        })
+        .reduce((acc, seconds) => acc + seconds, 0);
+
+    const averageAwakeDuration = sortedRecords.length === 0 ? 0 : Math.floor(totalAwakeDuration / sortedRecords.length - 1);
 
     function handleMoreClick (event: React.MouseEvent<HTMLButtonElement>, record: SleepSessionRecord) {
         setActiveRecord(record);
@@ -41,18 +64,21 @@ export function SessionRecords(props: SessionRecordsProps) {
         setActiveRecord(null);
     }
 
-    async function deleteRecord () {
-        if (activeRecord) {
-            props.onRecordRemove(activeRecord);
-            handleMoreClose();
-            
-        }
+    function deleteRecord  (record: SleepSessionRecord) {
+        props.onRecordRemove(record);
     }
 
-    function editRecord () {
-        if (activeRecord) {
-            props.onRecordEdit(activeRecord);
-            handleMoreClose();
+    function editRecord (record: SleepSessionRecord) {
+        props.onRecordEdit(record);
+    }
+
+    function getSleepDurationIndicator(durationInHours: number) {
+        if (durationInHours >= 7) {
+            return <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+        } else if (durationInHours >= 6) {
+            return <span className="w-2 h-2 bg-orange-500 rounded-full"></span>
+        } else {
+            return <span className="w-2 h-2 bg-red-500 rounded-full"></span>
         }
     }
 
@@ -78,8 +104,8 @@ export function SessionRecords(props: SessionRecordsProps) {
 
     return (
         <div className="flex flex-col rounded-lg">
-            <h1 className="text-2xl text-gray-900 dark:text-gray-100 mb-4 capitalize">
-                {format(titleDate, isThisYear(titleDate) ? "LLLL" : "LLLL yyyy", { locale })}
+            <h1 className="text-2xl text-gray-900 dark:text-gray-100 mb-4">
+                {t('home.table.your_sleep_history')}
             </h1>
 
             {props.currentMonth === false && (
@@ -88,11 +114,11 @@ export function SessionRecords(props: SessionRecordsProps) {
         
                     <div className="flex gap-12">
                         <div className="flex flex-col">
-                            <p className="text-gray-900 dark:text-gray-100">{t('home.short_summary.average_sleep_duration')}</p>
-                            <p className="text-gray-900 dark:text-gray-100">{formatDuration(new Date(), new Date())}</p>
+                            <p className="text-gray-900 dark:text-gray-100">{t('home.short_summary.average_awake_duration')}</p>
+                            <p className="text-gray-900 dark:text-gray-100">{formatDuration(new Date(), addSeconds(new Date(), averageAwakeDuration))}</p>
                         </div>
 
-                        <div className="flex flex-col">
+                        {/* <div className="flex flex-col">
                             <p className="text-gray-900 dark:text-gray-100">{t('home.short_summary.in_bed.title')}</p>
                             <p className="text-gray-900 dark:text-gray-100">{t('home.short_summary.in_bed.mostly_in_time')}</p>
                         </div>
@@ -100,11 +126,15 @@ export function SessionRecords(props: SessionRecordsProps) {
                         <div className="flex flex-col">
                             <p className="text-gray-900 dark:text-gray-100">{t('home.short_summary.woke_up.title')}</p>
                             <p className="text-gray-900 dark:text-gray-100">{t('home.short_summary.woke_up.mostly_almost_in_time')}</p>
-                        </div>
+                        </div> */}
 
                         <div className="flex flex-col">
                             <p className="text-gray-900 dark:text-gray-100">{t('home.short_summary.average_sleep_duration')}</p>
-                            <p className="text-gray-900 dark:text-gray-100">{formatDuration(new Date(), new Date())}</p>
+
+                            <div className="flex items-center gap-2">
+                                {getSleepDurationIndicator(differenceInHours(addSeconds(new Date(), averageSleepDuration), new Date()))}
+                                <p className="text-gray-900 dark:text-gray-100">{formatDuration(new Date(), addSeconds(new Date(), averageSleepDuration))}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -117,19 +147,19 @@ export function SessionRecords(props: SessionRecordsProps) {
                         <th className="p-4">
                             <div className="flex items-center gap-2">
                                 <p className="text-gray-900 dark:text-gray-100">{t('home.table.in_bed_at')}</p>
-                                <span title="Mostly In Time" className="w-2 h-2 bg-green-500 rounded-full"></span>
+                                {/* <span title="Mostly In Time" className="w-2 h-2 bg-green-500 rounded-full"></span> */}
                             </div>
                         </th>
                         <th className="p-4">
                             <div className="flex items-center gap-2">
                                 <p className="text-gray-900 dark:text-gray-100">{t('home.table.woke_up_at')}</p>
-                                <span title="Mostly Almost In Time" className="w-2 h-2 bg-orange-500 rounded-full"></span>
+                                {/* <span title="Mostly Almost In Time" className="w-2 h-2 bg-orange-500 rounded-full"></span> */}
                             </div>
                         </th>
                         <th className="p-4 text-gray-900 dark:text-gray-100">
                         <div className="flex items-center gap-2">
                                 <p className="text-gray-900 dark:text-gray-100">{t('home.table.sleep_duration')}</p>
-                                <span title="Mostly Almost In Time" className="w-2 h-2 bg-red-500 rounded-full"></span>
+                                {/* <span title="Mostly Almost In Time" className="w-2 h-2 bg-red-500 rounded-full"></span> */}
                             </div>
                         </th>
                         <th></th>
@@ -146,7 +176,7 @@ export function SessionRecords(props: SessionRecordsProps) {
                                     <div className="flex flex-col">
                                         <div className="flex items-center gap-2">
                                             <p className="text-gray-900 dark:text-gray-100">{format(record.inBedAt, "HH:mm")}</p>
-                                            <span className="w-2 h-2 bg-orange-500 rounded-full"></span>
+                                            {/* <span className="w-2 h-2 bg-orange-500 rounded-full"></span> */}
                                         </div>
 
                                         <span className="text-sm text-gray-400 capitalize">{format(record.inBedAt, "EEEE, d MMM", { locale })}</span>
@@ -156,7 +186,7 @@ export function SessionRecords(props: SessionRecordsProps) {
                                     <div className="flex flex-col">
                                         <div className="flex items-center gap-2">
                                             <p className="text-gray-900 dark:text-gray-100">{format(record.wokeUpAt, "HH:mm")}</p>
-                                            <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                                            {/* <span className="w-2 h-2 bg-green-500 rounded-full"></span> */}
                                         </div>
                                         
                                         <span className="text-sm text-gray-400 capitalize">{format(record.wokeUpAt, "EEEE, d MMM", { locale })}</span>
@@ -165,14 +195,32 @@ export function SessionRecords(props: SessionRecordsProps) {
                                 <td className="p-4">
                                     <div className="flex items-center gap-2">
                                         <p className="text-gray-900 dark:text-gray-100">{formatDuration(record.inBedAt, record.wokeUpAt)}</p>
-                                        <span className="w-2 h-2 bg-red-500 rounded-full"></span>
+                                        {/* <span className="w-2 h-2 bg-red-500 rounded-full"></span> */}
+                                        {record.napping === false && getSleepDurationIndicator(differenceInHours(record.wokeUpAt, record.inBedAt))}
+                                        {record.napping && (
+                                            <span title={t("home.table.napping")} className="material-symbols-outlined text-zinc-300 dark:text-zinc-500">
+                                                bolt
+                                            </span>
+                                        )}
                                     </div>
                                 </td>
                                 <td style={{ maxWidth: 60 }}>
                                     <div className="flex items-center justify-end">
-                                        <button className="flex items-center justify-center p-2 dark:text-gray-100 rounded-full" onClick={(event) => handleMoreClick(event, record)}>
+                                        {/* <button className="flex items-center justify-center p-2 dark:text-gray-100 rounded-full" onClick={(event) => handleMoreClick(event, record)}>
                                             <span className="material-symbols-outlined">
                                                 more_horiz
+                                            </span>
+                                        </button> */}
+
+                                        <button className="flex items-center justify-center p-2 text-blue-500 dark:text-zinc-800 rounded-full" onClick={() => editRecord(record)}>
+                                            <span className="material-symbols-outlined">
+                                                edit
+                                            </span>
+                                        </button>
+
+                                        <button className="flex items-center justify-center p-2 text-red-500 dark:text-red-900 rounded-full" onClick={() => deleteRecord(record)}>
+                                            <span className="material-symbols-outlined">
+                                                delete
                                             </span>
                                         </button>
                                     </div>
@@ -206,13 +254,13 @@ export function SessionRecords(props: SessionRecordsProps) {
                 </tbody>
             </table>
 
-            <MoreVertMenu
+            {/* <MoreVertMenu
                 isOpen={Boolean(anchorEl)} 
                 onClose={handleMoreClose} 
                 anchorEl={anchorEl}
                 onEdit={editRecord}
                 onDelete={deleteRecord}
-            />
+            /> */}
         </div>
     )
 }

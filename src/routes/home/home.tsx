@@ -1,4 +1,5 @@
-import { collection, deleteDoc, doc, onSnapshot, orderBy, query, Timestamp, where } from 'firebase/firestore';
+import { startOfMonth } from 'date-fns';
+import { collection, deleteDoc, doc, onSnapshot, query, Timestamp, where, writeBatch } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useTranslation } from 'react-i18next';
@@ -8,7 +9,7 @@ import { SessionRecords, SleepSessionRecord } from './components/session-records
 import { SessionRecordsSkeleton } from './components/session-records/session-records.skeleton';
 
 interface SleepSessionModel {
-    inBedAd: Timestamp,
+    inBedAt: Timestamp,
     napping: boolean,
     wokeUpAt: Timestamp,
     userId: string
@@ -27,10 +28,14 @@ export function Home() {
     useEffect(() => {
         if (user) {
             setIsDataLoading(true);
-            const q = query(collection(db, "sleepSessions"), where("userId", "==", user.uid), orderBy("inBedAd", "desc"));
+            const q = query(
+                collection(db, "sleepSessions"), 
+                where("userId", "==", user.uid), 
+                // where("inBedAt", ">", Timestamp.fromDate(startOfMonth(new Date()))), 
+                // where("inBedAt", "<", Timestamp.fromDate(new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1))), 
+            );
 
             const unsubscribe = onSnapshot(q, (snapshot) => {
-
                 snapshot.docChanges().forEach((change) => {
                     if (change.type === "added") {
                         let data = change.doc.data() as SleepSessionModel;
@@ -38,7 +43,7 @@ export function Home() {
                         let record: SleepSessionRecord = {
                             id: change.doc.id,
                             date: new Date(),
-                            inBedAt: data.inBedAd.toDate(),
+                            inBedAt: data.inBedAt.toDate(),
                             wokeUpAt: data.wokeUpAt.toDate(),
                             napping: data.napping
                         };
@@ -53,7 +58,7 @@ export function Home() {
                                 return {
                                     ...record, 
                                     napping: data.napping, 
-                                    inBedAt: data.inBedAd.toDate(), 
+                                    inBedAt: data.inBedAt.toDate(), 
                                     wokeUpAt:data.wokeUpAt.toDate() 
                                 }
                             }
@@ -77,7 +82,7 @@ export function Home() {
     }
 
     async function handleRecordRemove(record: SleepSessionRecord) {
-        let isConfirmed = window.confirm("Are you sure you want to delete");
+        let isConfirmed = window.confirm(t("home.record_delete_confirmation"));
 
         if (isConfirmed) {
             await deleteDoc(doc(db, "sleepSessions", record.id));
